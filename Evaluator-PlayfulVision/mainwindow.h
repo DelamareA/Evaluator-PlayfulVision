@@ -20,7 +20,10 @@
 
 #include "customqgraphicspixmapitem.h"
 #include "customqgraphicsvideoitem.h"
+#include "videodata.h"
+#include "framedata.h"
 #include "numberdata.h"
+#include "colordata.h"
 #include "constants.h"
 
 class MainWindow : public QMainWindow{
@@ -35,15 +38,19 @@ class MainWindow : public QMainWindow{
     private slots:
         void displayVideoError(QMediaPlayer::Error error);
         void slotMediaStatusChanged(QMediaPlayer::MediaStatus state);
+        void slotdurationChanged(qint64 duration);
         void update();
         void slotNextFrame();
 
         void slotActionLoadNumTriggered(bool);
         void slotActionLoadColorTriggered(bool);
 
+        void slotSaveAndExit();
+
     private:
         void setCorrectTimeAndFrame();
         void loadVideo();
+        void createCustomPixmap(unsigned int x, unsigned int y);
 
     private:
         // _______________________________
@@ -62,11 +69,14 @@ class MainWindow : public QMainWindow{
         QLabel* labelVideoFrame;
 
         QPixmap* pointerPixmap;
+        QList<CustomQGraphicsPixmapItem*> currentPixmaps;
 
 
         // _______________________________
         // DATA
         // _______________________________
+
+        VideoData* videoData;
 
         // _______________________________
         // USER DATA

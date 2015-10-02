@@ -4,6 +4,10 @@ NumberData::NumberData(){
 
 }
 
+NumberData::NumberData(int val){
+    this->val = val;
+}
+
 NumberData::~NumberData(){
 
 }

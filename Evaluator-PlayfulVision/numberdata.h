@@ -7,6 +7,7 @@ class NumberData : public Data {
 
     public:
         NumberData();
+        NumberData(int val);
         ~NumberData();
 
         unsigned int toNumber();

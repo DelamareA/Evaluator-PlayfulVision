@@ -27,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
     player = new QMediaPlayer(this);
     connect(player, SIGNAL(error(QMediaPlayer::Error)), this, SLOT(displayVideoError(QMediaPlayer::Error)));
     connect(player, SIGNAL(mediaStatusChanged(QMediaPlayer::MediaStatus)), this, SLOT(slotMediaStatusChanged(QMediaPlayer::MediaStatus)));
+    connect(player, SIGNAL(durationChanged(qint64)), this, SLOT(slotdurationChanged(qint64)));
 
     graphicsView = new QGraphicsView(new QGraphicsScene(this), this);
     layoutPrincipal->addWidget(graphicsView);
@@ -46,7 +47,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 
     QPushButton* buttonPrevious = new QPushButton("Previous frame", actionBar);
     layoutActionBar->addWidget(buttonPrevious);
-    //connect(buttonNext, SIGNAL(clicked ()), this, SLOT(slotNextFrame()));
+    //connect(buttonPrevious, SIGNAL(clicked ()), this, SLOT(slotSaveAndExit()));
 
     QPushButton* buttonNext = new QPushButton("Next frame", actionBar);
     layoutActionBar->addWidget(buttonNext);
@@ -66,6 +67,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 
     frameDuration = 1000; // A CHANGER
     currentFrame = 0;
+    videoData = 0;
 
     pointerPixmap = new QPixmap("ressources/images/pointer.png");
 
@@ -82,19 +84,61 @@ void MainWindow::displayVideoError(QMediaPlayer::Error error){
 void MainWindow::slotMediaStatusChanged(QMediaPlayer::MediaStatus state){
     qDebug() << state;
     if (state == QMediaPlayer::LoadedMedia || state == QMediaPlayer::BufferedMedia){
-        graphicsView->setFixedWidth(videoItem->nativeSize().width() + 2);
-        graphicsView->setFixedHeight(videoItem->nativeSize().height() + 2);
-        videoItem->setSize(videoItem->nativeSize());
+        QSize size;
+
+        size.setWidth(videoItem->nativeSize().width());
+        size.setHeight(videoItem->nativeSize().height());
+        if (size.width() > MIN_WIDTH || size.height() > MIN_HEIGHT){
+            double ratioWidth = size.width() / (double) MIN_WIDTH;
+            double ratioHeight = size.height() / (double) MIN_HEIGHT;
+            if (ratioWidth > ratioHeight){
+                size.setWidth(MIN_WIDTH);
+                size.setHeight(size.height() / ratioWidth);
+            }
+            else {
+                size.setWidth(size.width() / ratioHeight);
+                size.setHeight(MIN_HEIGHT);
+            }
+        }
+        graphicsView->setFixedWidth(size.width() + 2);
+        graphicsView->setFixedHeight(size.height() + 2);
+        videoItem->setSize(size);
 
         currentFrame = 0;
         setCorrectTimeAndFrame();
     }
 }
 
+void MainWindow::slotdurationChanged(qint64 duration){
+    qDebug() << duration;
+}
+
 void MainWindow::slotNextFrame(){
-    //player->duration()
-    player->setPosition(player->position() + frameDuration);
-    currentFrame++;
+    if (player->position() + frameDuration > player->duration()){
+        slotSaveAndExit();
+        currentFrame = 0;
+    }
+    else {
+        player->setPosition(player->position() + frameDuration);
+        videoData->addFrameData(currentFrame+1, new FrameData(videoData->getFrameData(currentFrame)));
+
+        for (int i = 0; i < currentPixmaps.size(); i++){
+            Data* pointer = currentPixmaps[i]->getDataPointer();
+            Data* newPointer = 0;
+            if (mode == NUMBER){
+                newPointer = new NumberData(pointer->toNumber());
+            }
+            else {
+                newPointer = new ColorData(pointer->toColor());
+            }
+            videoData->getFrameData(currentFrame+1)->addData(newPointer);
+            currentPixmaps[i]->changePointers(newPointer, videoData->getFrameData(currentFrame+1));
+        }
+
+
+        currentFrame++;
+    }
+
     setCorrectTimeAndFrame();
 }
 
@@ -108,11 +152,24 @@ void MainWindow::slotActionLoadColorTriggered(bool b){
     loadVideo();
 }
 
+void MainWindow::slotSaveAndExit(){
+    graphicsView->setVisible(false);
+}
+
 void MainWindow::loadVideo(){
-    QString fileName = QFileDialog::getOpenFileName(this, "Open a video", QString(), "Video (*.mp4, *.wmv)");
+    QString fileName = QFileDialog::getOpenFileName(this, "Open a video", QString(), "Video (*.webm; *.wmv; *.mp4)");
     if (!fileName.isNull()){
+
        player->setMedia(QUrl::fromLocalFile(fileName));
        player->pause();
+       graphicsView->setVisible(true);
+
+       if (videoData != 0){
+           delete videoData;
+       }
+
+       videoData = new VideoData();
+       videoData->addFrameData(currentFrame, new FrameData());
     }
 }
 
@@ -123,13 +180,28 @@ void MainWindow::update(){
 
 void MainWindow::mouseClick(unsigned int x, unsigned int y){
     qDebug() << "(" << x << "," << y << ")";
+    createCustomPixmap(x,y);
+}
 
-    CustomQGraphicsPixmapItem* item = new CustomQGraphicsPixmapItem(*pointerPixmap, new NumberData());
+void MainWindow::createCustomPixmap(unsigned int x, unsigned int y){
+    Data* dataPointer = 0;
+
+    if (mode == NUMBER){
+        dataPointer = new NumberData();
+    }
+    else {
+        dataPointer = new ColorData();
+    }
+    videoData->getFrameData(currentFrame)->addData(dataPointer);
+    CustomQGraphicsPixmapItem* item = new CustomQGraphicsPixmapItem(*pointerPixmap, dataPointer, videoData->getFrameData(currentFrame));
     item->setPos(x - IMAGE_POINTER_SIZE/2, y - IMAGE_POINTER_SIZE/2);
     graphicsView->scene()->addItem(item);
+    item->setFlag(QGraphicsItem::ItemIsFocusable);
     item->setFlag(QGraphicsItem::ItemIsMovable);
     item->setFlag(QGraphicsItem::ItemIsSelectable);
     item->setFlag(QGraphicsItem::ItemSendsGeometryChanges);
+
+    currentPixmaps.append(item);
 }
 
 void MainWindow::setCorrectTimeAndFrame(){
