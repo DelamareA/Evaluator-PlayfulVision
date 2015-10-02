@@ -1,7 +1,7 @@
 #include "numberdata.h"
 
 NumberData::NumberData(){
-
+    this->val = 1;
 }
 
 NumberData::NumberData(int val){

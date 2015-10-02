@@ -10,10 +10,12 @@
 #include "data.h"
 #include "framedata.h"
 
+class MainWindow;
+
 class CustomQGraphicsPixmapItem : public QGraphicsPixmapItem{
 
     public:
-        CustomQGraphicsPixmapItem(QPixmap& pixmap, Data* dataPointer, FrameData* frameData);
+        CustomQGraphicsPixmapItem(QPixmap& pixmap, Data* dataPointer, FrameData* frameData, MainWindow *mainWindow);
         QVariant itemChange(GraphicsItemChange change, const QVariant & value);
 
         void changePointers(Data* dataPointer, FrameData* frameData);
@@ -25,6 +27,8 @@ class CustomQGraphicsPixmapItem : public QGraphicsPixmapItem{
     private:
         Data* dataPointer;
         FrameData* frameData;
+        MainWindow* mainWindow;
 };
 
 #endif // CUSTOMQGRAPHICSPIXMAPITEM_H
+

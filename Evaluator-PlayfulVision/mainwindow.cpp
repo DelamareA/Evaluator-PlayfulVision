@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
-    setWindowTitle("Redstone");
+    setWindowTitle("Evaluator");
 
     QWidget *centralZone = new QWidget(this);
     QVBoxLayout *layoutPrincipal = new QVBoxLayout;
@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
     newDataMenu->addAction(actionLoadNum);
     connect(actionLoadNum, SIGNAL(triggered(bool)), this, SLOT(slotActionLoadNumTriggered(bool)));
     QAction *actionLoadColor = new QAction("Load video (&Color)", this);
+    connect(actionLoadColor, SIGNAL(triggered(bool)), this, SLOT(slotActionLoadColorTriggered(bool)));
     newDataMenu->addAction(actionLoadColor);
 
     QMenu *compareDataMenu = menuBar()->addMenu("&Compare data");
@@ -39,6 +40,29 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 
     //player->setMedia(QUrl::fromLocalFile("C:/Users/Arnaud/Documents/EPFL/5/Projet/TestApp/build-TestApp-Desktop_Qt_5_5_0_MinGW_32bit-Debug/ressources/videos/kapoue.wmv"));
     //player->pause();
+
+    inputBar = new QWidget(centralZone);
+    QHBoxLayout *layoutInputBar = new QHBoxLayout;
+    inputBar->setLayout(layoutInputBar);
+    inputBar->setMaximumWidth(210);
+    layoutPrincipal->addWidget(inputBar);
+    inputBar->setVisible(false);
+
+    QLabel* labelInput = new QLabel("Input value : ", inputBar);
+    labelInput->setMaximumWidth(100);
+    layoutInputBar->addWidget(labelInput);
+
+    spinInputNumber = new QSpinBox(inputBar);
+    spinInputNumber->setMinimum(1);
+    spinInputNumber->setMaximumWidth(100);
+    connect(spinInputNumber, SIGNAL(valueChanged(int)), this, SLOT(slotSpinInputValueChanged(int)));
+    layoutInputBar->addWidget(spinInputNumber);
+
+    comboInputColor = new QComboBox(inputBar);
+    comboInputColor->addItem("Team 1");
+    comboInputColor->addItem("Team 2");
+    comboInputColor->setMaximumWidth(100);
+    layoutInputBar->addWidget(comboInputColor);
 
     QWidget* actionBar = new QWidget(centralZone);
     QHBoxLayout *layoutActionBar = new QHBoxLayout;
@@ -68,6 +92,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
     frameDuration = 1000; // A CHANGER
     currentFrame = 0;
     videoData = 0;
+    focusedPixmap = 0;
 
     pointerPixmap = new QPixmap("ressources/images/pointer.png");
 
@@ -103,6 +128,11 @@ void MainWindow::slotMediaStatusChanged(QMediaPlayer::MediaStatus state){
         graphicsView->setFixedWidth(size.width() + 2);
         graphicsView->setFixedHeight(size.height() + 2);
         videoItem->setSize(size);
+
+        inputBar->setVisible(true);
+
+        spinInputNumber->setVisible(mode == NUMBER);
+        comboInputColor->setVisible(mode == COLOR);
 
         currentFrame = 0;
         setCorrectTimeAndFrame();
@@ -156,6 +186,30 @@ void MainWindow::slotSaveAndExit(){
     graphicsView->setVisible(false);
 }
 
+void MainWindow::slotSpinInputValueChanged(int i){
+    if (focusedPixmap != 0){
+        Data* oldData = focusedPixmap->getDataPointer();
+
+        Data* newData = 0;
+
+        if (mode == NUMBER){
+            newData = new NumberData(i);
+
+            newData->setX(oldData->getX());
+            newData->setY(oldData->getY());
+
+            videoData->getFrameData(currentFrame)->deleteData(oldData);
+            videoData->getFrameData(currentFrame)->addData(newData);
+            focusedPixmap->changePointers(newData, videoData->getFrameData(currentFrame));
+
+        }
+        else {
+            qDebug() << "Mode should not be 'Color' when spinInput is visible";
+        }
+    }
+
+}
+
 void MainWindow::loadVideo(){
     QString fileName = QFileDialog::getOpenFileName(this, "Open a video", QString(), "Video (*.webm; *.wmv; *.mp4)");
     if (!fileName.isNull()){
@@ -187,13 +241,13 @@ void MainWindow::createCustomPixmap(unsigned int x, unsigned int y){
     Data* dataPointer = 0;
 
     if (mode == NUMBER){
-        dataPointer = new NumberData();
+        dataPointer = new NumberData(spinInputNumber->value());
     }
     else {
         dataPointer = new ColorData();
     }
     videoData->getFrameData(currentFrame)->addData(dataPointer);
-    CustomQGraphicsPixmapItem* item = new CustomQGraphicsPixmapItem(*pointerPixmap, dataPointer, videoData->getFrameData(currentFrame));
+    CustomQGraphicsPixmapItem* item = new CustomQGraphicsPixmapItem(*pointerPixmap, dataPointer, videoData->getFrameData(currentFrame), this);
     item->setPos(x - IMAGE_POINTER_SIZE/2, y - IMAGE_POINTER_SIZE/2);
     graphicsView->scene()->addItem(item);
     item->setFlag(QGraphicsItem::ItemIsFocusable);
@@ -202,6 +256,23 @@ void MainWindow::createCustomPixmap(unsigned int x, unsigned int y){
     item->setFlag(QGraphicsItem::ItemSendsGeometryChanges);
 
     currentPixmaps.append(item);
+}
+
+void MainWindow::removeFocusedPixmap(CustomQGraphicsPixmapItem* pixmap){
+    if (pixmap == focusedPixmap){
+        focusedPixmap = 0;
+    }
+}
+
+void MainWindow::setFocusedPixmap(CustomQGraphicsPixmapItem* pixmap){
+    focusedPixmap = pixmap;
+
+    if (mode == NUMBER){
+        spinInputNumber->setValue(focusedPixmap->getDataPointer()->toNumber());
+    }
+    else {
+        // A VOUS DE JOUER =)
+    }
 }
 
 void MainWindow::setCorrectTimeAndFrame(){

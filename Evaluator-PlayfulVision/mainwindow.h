@@ -10,6 +10,7 @@
 #include <QGraphicsVideoItem>
 #include <QLabel>
 #include <QSpinBox>
+#include <QComboBox>
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsProxyWidget>
 #include <QPushButton>
@@ -26,6 +27,8 @@
 #include "colordata.h"
 #include "constants.h"
 
+class CustomQGraphicsPixmapItem;
+
 class MainWindow : public QMainWindow{
     Q_OBJECT
 
@@ -34,6 +37,8 @@ class MainWindow : public QMainWindow{
         ~MainWindow();
 
         void mouseClick(unsigned int x, unsigned int y);
+        void removeFocusedPixmap(CustomQGraphicsPixmapItem* pixmap);
+        void setFocusedPixmap(CustomQGraphicsPixmapItem* pixmap);
 
     private slots:
         void displayVideoError(QMediaPlayer::Error error);
@@ -44,6 +49,8 @@ class MainWindow : public QMainWindow{
 
         void slotActionLoadNumTriggered(bool);
         void slotActionLoadColorTriggered(bool);
+
+        void slotSpinInputValueChanged(int);
 
         void slotSaveAndExit();
 
@@ -68,7 +75,12 @@ class MainWindow : public QMainWindow{
         QLabel* labelVideoTime;
         QLabel* labelVideoFrame;
 
+        QWidget* inputBar;
+        QSpinBox* spinInputNumber;
+        QComboBox* comboInputColor;
+
         QPixmap* pointerPixmap;
+        CustomQGraphicsPixmapItem* focusedPixmap;
         QList<CustomQGraphicsPixmapItem*> currentPixmaps;
 
 

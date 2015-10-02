@@ -19,6 +19,7 @@ class Data {
         virtual bool isNumber() = 0;
         virtual bool isColor() = 0;
 
+
         unsigned int getX();
         unsigned int getY();
         void setX(unsigned int x);
