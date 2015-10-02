@@ -13,11 +13,14 @@ class VideoData {
         VideoData();
         VideoData(QString fileName);
 
-        void saveToFile(QString fileName);
+        void addFrameData(Time t, FrameData * data);
+        FrameData* getFrameData(Time t);
+
+        QString toString();
         ComparisonResult compareTo(VideoData other, unsigned int marginOfError);
 
     private:
-        QMap<Time, FrameData> dataMap;
+        QMap<Time, FrameData*> dataMap;
 };
 
 #endif // VIDEODATA_H

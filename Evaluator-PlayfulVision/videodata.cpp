@@ -8,7 +8,15 @@ VideoData::VideoData(QString fileName){
 
 }
 
-void VideoData::saveToFile(QString fileName) {
+void VideoData::addFrameData(Time t, FrameData *data){
+    dataMap.insert(t, data);
+}
+
+FrameData * VideoData::getFrameData(Time t){
+    return dataMap[t];
+}
+
+QString VideoData::toString() {
 
 }
 

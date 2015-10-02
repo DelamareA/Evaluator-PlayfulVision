@@ -2,21 +2,101 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QMediaPlayer>
+#include <QVideoWidget>
+#include <QVBoxLayout>
+#include <QGraphicsView>
+#include <QGraphicsScene>
+#include <QGraphicsVideoItem>
+#include <QLabel>
+#include <QSpinBox>
+#include <QComboBox>
+#include <QGraphicsSceneMouseEvent>
+#include <QGraphicsProxyWidget>
+#include <QPushButton>
+#include <QMenuBar>
+#include <QAction>
+#include <QMenu>
+#include <QFileDialog>
 
-namespace Ui {
-class MainWindow;
-}
+#include "customqgraphicspixmapitem.h"
+#include "customqgraphicsvideoitem.h"
+#include "videodata.h"
+#include "framedata.h"
+#include "numberdata.h"
+#include "colordata.h"
+#include "constants.h"
 
-class MainWindow : public QMainWindow
-{
+class CustomQGraphicsPixmapItem;
+
+class MainWindow : public QMainWindow{
     Q_OBJECT
 
-public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    public:
+        explicit MainWindow(QWidget *parent = 0);
+        ~MainWindow();
 
-private:
-    Ui::MainWindow *ui;
+        void mouseClick(unsigned int x, unsigned int y);
+        void removeFocusedPixmap(CustomQGraphicsPixmapItem* pixmap);
+        void setFocusedPixmap(CustomQGraphicsPixmapItem* pixmap);
+
+    private slots:
+        void displayVideoError(QMediaPlayer::Error error);
+        void slotMediaStatusChanged(QMediaPlayer::MediaStatus state);
+        void slotdurationChanged(qint64 duration);
+        void update();
+        void slotNextFrame();
+
+        void slotActionLoadNumTriggered(bool);
+        void slotActionLoadColorTriggered(bool);
+
+        void slotSpinInputValueChanged(int);
+
+        void slotSaveAndExit();
+
+    private:
+        void setCorrectTimeAndFrame();
+        void loadVideo();
+        void createCustomPixmap(unsigned int x, unsigned int y);
+
+    private:
+        // _______________________________
+        // VIDEO
+        // _______________________________
+        QMediaPlayer* player;
+        QGraphicsView* graphicsView;
+        QGraphicsVideoItem *videoItem;
+
+        // _______________________________
+        // INTERFACE
+        // _______________________________
+        Mode mode;
+
+        QLabel* labelVideoTime;
+        QLabel* labelVideoFrame;
+
+        QWidget* inputBar;
+        QSpinBox* spinInputNumber;
+        QComboBox* comboInputColor;
+
+        QPixmap* pointerPixmap;
+        CustomQGraphicsPixmapItem* focusedPixmap;
+        QList<CustomQGraphicsPixmapItem*> currentPixmaps;
+
+
+        // _______________________________
+        // DATA
+        // _______________________________
+
+        VideoData* videoData;
+
+        // _______________________________
+        // USER DATA
+        // _______________________________
+        unsigned int frameDuration; // in ms
+        unsigned int currentFrame;
+
 };
+
 
 #endif // MAINWINDOW_H

@@ -1,0 +1,14 @@
+INPUT(
+./release\main.o
+./release\mainwindow.o
+./release\color.o
+./release\colordata.o
+./release\comparisonresult.o
+./release\customqgraphicspixmapitem.o
+./release\customqgraphicsvideoitem.o
+./release\data.o
+./release\framedata.o
+./release\numberdata.o
+./release\videodata.o
+./release\moc_mainwindow.o
+);

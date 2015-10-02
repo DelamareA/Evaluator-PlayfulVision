@@ -7,6 +7,7 @@ class ColorData : public Data {
 
     public:
         ColorData();
+        ColorData(Color c);
         ~ColorData();
 
         unsigned int toNumber();

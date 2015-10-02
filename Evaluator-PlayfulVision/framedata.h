@@ -8,9 +8,11 @@ class FrameData{
 
     public:
         FrameData();
+        FrameData(FrameData* other);
 
         QSetIterator<Data *> iterator();
         void addData(Data * p);
+        void deleteData(Data * p);
 
      private:
         QSet<Data *> dataSet;

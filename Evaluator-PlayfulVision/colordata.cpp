@@ -4,6 +4,11 @@ ColorData::ColorData() {
 
 }
 
+ColorData::ColorData(Color c) {
+
+}
+
+
 ColorData::~ColorData() {
 
 }
