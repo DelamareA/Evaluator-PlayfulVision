@@ -1,7 +1,4 @@
 /* Class defining a template.
-	A template for a team (player team or referee) is a set of images.
-	A template is defined by 7 images, ie the 7 camera image for the same player 
-		(we ignore the above camera, as it is useless for finding the team membership)
 */
 
 #ifndef TEMPLATE_INCLUDED
@@ -11,16 +8,18 @@
 #include <QImage>
 #include <vector>
 
-typedef enum{CAMERA_0, CAMERA_1, CAMERA_2, CAMERA_3, CAMERA_4, CAMERA_5, CAMERA_6} orientation_t;
+typedef enum{TEAM_A, TEAM_B, TEAM_REFEREE, TEAM_UNKNOWN} team_t;
 
 class Template{
 	public:
-		Template(std::vector<QImage> images);
+		Template(QImage image, team_t team);
 		~Template();
 
-		QImage get_image(orientation_t o);
+		QImage get_template();
+		team_t get_template_team();
 
 	private:	
-		std::vector<QImage> m_images;
+		QImage m_image;
+		team_t m_team;
 };
 #endif

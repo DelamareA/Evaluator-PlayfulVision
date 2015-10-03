@@ -16,6 +16,7 @@
 typedef struct{
 	int success;
 	int fails;
+	int undermined;
 	int num_test; 
 }comparison_results_t;
 
@@ -26,9 +27,9 @@ public:
 
 	void run_test_cases();
 
+	comparison_results_t retreive_test_results();
+
 private:
-	void decode_test_cases();
-
 	std::vector<TestCase> m_test_cases;
-
+	comparison_results_t m_results;
 };
