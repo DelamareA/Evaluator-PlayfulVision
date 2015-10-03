@@ -8,6 +8,7 @@ class ColorData : public Data {
     public:
         ColorData();
         ColorData(Color c);
+        ColorData(Color c, bool isTemplate);
         ~ColorData();
 
         unsigned int toNumber();
@@ -15,8 +16,18 @@ class ColorData : public Data {
         bool isNumber();
         bool isColor();
 
+        void setTemplated(bool);
+        void setImage(QImage*);
+        bool getTemplate();
+        QImage* getImage();
+
+        static Color intToColor(int);
+        static int colorToInt(Color c);
+
     private:
       Color color;
+      bool isTemplate;
+      QImage* image;
 };
 
 #endif // COLORDATA_H

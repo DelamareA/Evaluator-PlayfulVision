@@ -17,7 +17,10 @@
 #include <QMenuBar>
 #include <QAction>
 #include <QMenu>
+#include <QCheckBox>
 #include <QFileDialog>
+
+#include <math.h>
 
 #include "customqgraphicspixmapitem.h"
 #include "customqgraphicsvideoitem.h"
@@ -38,7 +41,9 @@ class MainWindow : public QMainWindow{
 
         void mouseClick(unsigned int x, unsigned int y);
         void removeFocusedPixmap(CustomQGraphicsPixmapItem* pixmap);
+        void removePixmap(CustomQGraphicsPixmapItem* pixmap);
         void setFocusedPixmap(CustomQGraphicsPixmapItem* pixmap);
+        void updateRectangles();
 
     private slots:
         void displayVideoError(QMediaPlayer::Error error);
@@ -51,6 +56,8 @@ class MainWindow : public QMainWindow{
         void slotActionLoadColorTriggered(bool);
 
         void slotSpinInputValueChanged(int);
+        void slotComboInputIndexChanged(int);
+        void slotCheckInputStateChanged(int);
 
         void slotSaveAndExit();
 
@@ -71,15 +78,18 @@ class MainWindow : public QMainWindow{
         // INTERFACE
         // _______________________________
         Mode mode;
+        bool mode2;
 
         QLabel* labelVideoTime;
         QLabel* labelVideoFrame;
 
         QWidget* inputBar;
         QSpinBox* spinInputNumber;
-        QComboBox* comboInputColor;
+        QComboBox* comboInputColorTeam;
+        QCheckBox* checkInputColorTemplate;
 
         QPixmap* pointerPixmap;
+        QPixmap* pointerPixmap2;
         CustomQGraphicsPixmapItem* focusedPixmap;
         QList<CustomQGraphicsPixmapItem*> currentPixmaps;
 

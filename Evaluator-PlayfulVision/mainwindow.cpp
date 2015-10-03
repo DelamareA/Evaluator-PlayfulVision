@@ -44,7 +44,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
     inputBar = new QWidget(centralZone);
     QHBoxLayout *layoutInputBar = new QHBoxLayout;
     inputBar->setLayout(layoutInputBar);
-    inputBar->setMaximumWidth(210);
+    inputBar->setMaximumWidth(310);
     layoutPrincipal->addWidget(inputBar);
     inputBar->setVisible(false);
 
@@ -58,11 +58,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
     connect(spinInputNumber, SIGNAL(valueChanged(int)), this, SLOT(slotSpinInputValueChanged(int)));
     layoutInputBar->addWidget(spinInputNumber);
 
-    comboInputColor = new QComboBox(inputBar);
-    comboInputColor->addItem("Team 1");
-    comboInputColor->addItem("Team 2");
-    comboInputColor->setMaximumWidth(100);
-    layoutInputBar->addWidget(comboInputColor);
+    comboInputColorTeam = new QComboBox(inputBar);
+    comboInputColorTeam->addItem("Team 1");
+    comboInputColorTeam->addItem("Team 2");
+    comboInputColorTeam->addItem("Referee");
+    comboInputColorTeam->setMaximumWidth(100);
+    connect(comboInputColorTeam, SIGNAL(currentIndexChanged(int)), this, SLOT(slotComboInputIndexChanged(int)));
+    layoutInputBar->addWidget(comboInputColorTeam);
+
+    checkInputColorTemplate = new QCheckBox("Is template ?", inputBar);
+    connect(checkInputColorTemplate, SIGNAL(stateChanged(int)), this, SLOT(slotCheckInputStateChanged(int)));
+    layoutInputBar->addWidget(checkInputColorTemplate);
 
     QWidget* actionBar = new QWidget(centralZone);
     QHBoxLayout *layoutActionBar = new QHBoxLayout;
@@ -95,6 +101,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
     focusedPixmap = 0;
 
     pointerPixmap = new QPixmap("ressources/images/pointer.png");
+    pointerPixmap2 = new QPixmap("ressources/images/pointer2.png");
 
 }
 
@@ -132,7 +139,8 @@ void MainWindow::slotMediaStatusChanged(QMediaPlayer::MediaStatus state){
         inputBar->setVisible(true);
 
         spinInputNumber->setVisible(mode == NUMBER);
-        comboInputColor->setVisible(mode == COLOR);
+        comboInputColorTeam->setVisible(mode == COLOR);
+        checkInputColorTemplate->setVisible(mode == COLOR);
 
         currentFrame = 0;
         setCorrectTimeAndFrame();
@@ -174,11 +182,13 @@ void MainWindow::slotNextFrame(){
 
 void MainWindow::slotActionLoadNumTriggered(bool b){
     mode = NUMBER;
+    mode2 = false;
     loadVideo();
 }
 
 void MainWindow::slotActionLoadColorTriggered(bool b){
     mode = COLOR;
+    mode2 = false;
     loadVideo();
 }
 
@@ -210,6 +220,64 @@ void MainWindow::slotSpinInputValueChanged(int i){
 
 }
 
+void MainWindow::slotComboInputIndexChanged(int i){
+    if (focusedPixmap != 0){
+        Data* oldData = focusedPixmap->getDataPointer();
+
+        Data* newData = 0;
+
+        if (mode == COLOR){
+            newData = new ColorData(ColorData::intToColor(i), checkInputColorTemplate->isChecked());
+
+            newData->setX(oldData->getX());
+            newData->setY(oldData->getY());
+
+            videoData->getFrameData(currentFrame)->deleteData(oldData);
+            videoData->getFrameData(currentFrame)->addData(newData);
+
+            focusedPixmap->changePointers(newData, videoData->getFrameData(currentFrame));
+            CustomQGraphicsPixmapItem* brother = focusedPixmap->getBrother();
+            if (brother != 0){
+                brother->changePointers(newData, videoData->getFrameData(currentFrame));
+            }
+
+        }
+        else {
+            qDebug() << "Mode should not be 'Number' when comboInput is visible";
+        }
+    }
+}
+
+void MainWindow::slotCheckInputStateChanged(int s){
+    qDebug() << "Called";
+    if (focusedPixmap != 0){
+        Data* oldData = focusedPixmap->getDataPointer();
+
+        ColorData* newData = 0;
+
+        if (mode == COLOR){
+            newData = new ColorData(ColorData::intToColor(comboInputColorTeam->currentIndex()), (bool)s);
+            qDebug() << "New data : " << newData;
+
+            newData->setX(oldData->getX());
+            newData->setY(oldData->getY());
+
+            videoData->getFrameData(currentFrame)->deleteData(oldData);
+            videoData->getFrameData(currentFrame)->addData(newData);
+
+            focusedPixmap->changePointers(newData, videoData->getFrameData(currentFrame));
+            CustomQGraphicsPixmapItem* brother = focusedPixmap->getBrother();
+            if (brother != 0){
+                brother->changePointers(newData, videoData->getFrameData(currentFrame));
+            }
+
+        }
+        else {
+            qDebug() << "Mode should not be 'Number' when checkInput is visible";
+        }
+    }
+}
+
 void MainWindow::loadVideo(){
     QString fileName = QFileDialog::getOpenFileName(this, "Open a video", QString(), "Video (*.webm; *.wmv; *.mp4)");
     if (!fileName.isNull()){
@@ -234,20 +302,34 @@ void MainWindow::update(){
 
 void MainWindow::mouseClick(unsigned int x, unsigned int y){
     qDebug() << "(" << x << "," << y << ")";
+    mode2 = !mode2;
     createCustomPixmap(x,y);
 }
 
 void MainWindow::createCustomPixmap(unsigned int x, unsigned int y){
-    Data* dataPointer = 0;
+
+    CustomQGraphicsPixmapItem* item = 0;
 
     if (mode == NUMBER){
-        dataPointer = new NumberData(spinInputNumber->value());
+        NumberData* dataPointer = new NumberData(spinInputNumber->value());
+        item = new CustomQGraphicsPixmapItem(*pointerPixmap, dataPointer, videoData->getFrameData(currentFrame), this, 0);
+        videoData->getFrameData(currentFrame)->addData(dataPointer);
     }
     else {
-        dataPointer = new ColorData();
+        if (mode2){
+            Color c = ColorData::intToColor(comboInputColorTeam->currentIndex());
+            ColorData* dataPointer = new ColorData(c, checkInputColorTemplate->isChecked());
+            item = new CustomQGraphicsPixmapItem(*pointerPixmap, dataPointer, videoData->getFrameData(currentFrame), this, 0);
+            videoData->getFrameData(currentFrame)->addData(dataPointer);
+        }
+        else {
+            ColorData* dataPointer = (ColorData* )currentPixmaps.last()->getDataPointer();
+            item = new CustomQGraphicsPixmapItem(*pointerPixmap2, dataPointer, videoData->getFrameData(currentFrame), this, currentPixmaps.last());
+            currentPixmaps.last()->setBrother(item);
+        }
+
     }
-    videoData->getFrameData(currentFrame)->addData(dataPointer);
-    CustomQGraphicsPixmapItem* item = new CustomQGraphicsPixmapItem(*pointerPixmap, dataPointer, videoData->getFrameData(currentFrame), this);
+
     item->setPos(x - IMAGE_POINTER_SIZE/2, y - IMAGE_POINTER_SIZE/2);
     graphicsView->scene()->addItem(item);
     item->setFlag(QGraphicsItem::ItemIsFocusable);
@@ -256,12 +338,19 @@ void MainWindow::createCustomPixmap(unsigned int x, unsigned int y){
     item->setFlag(QGraphicsItem::ItemSendsGeometryChanges);
 
     currentPixmaps.append(item);
+
+    item->updateRectangle();
 }
 
 void MainWindow::removeFocusedPixmap(CustomQGraphicsPixmapItem* pixmap){
     if (pixmap == focusedPixmap){
         focusedPixmap = 0;
     }
+}
+
+void MainWindow::removePixmap(CustomQGraphicsPixmapItem* pixmap){
+    currentPixmaps.removeOne(pixmap);
+    mode2 = false;
 }
 
 void MainWindow::setFocusedPixmap(CustomQGraphicsPixmapItem* pixmap){
@@ -271,7 +360,17 @@ void MainWindow::setFocusedPixmap(CustomQGraphicsPixmapItem* pixmap){
         spinInputNumber->setValue(focusedPixmap->getDataPointer()->toNumber());
     }
     else {
-        // A VOUS DE JOUER =)
+        comboInputColorTeam->setCurrentIndex(ColorData::colorToInt(focusedPixmap->getDataPointer()->toColor()));
+        ColorData* pointer = (ColorData*)focusedPixmap->getDataPointer();
+        checkInputColorTemplate->setChecked(pointer->getTemplate());
+
+        qDebug() << "Previous data : " << pointer;
+    }
+}
+
+void MainWindow::updateRectangles(){
+    for (int i = 0; i < currentPixmaps.size(); i++){
+        currentPixmaps[i]->updateRectangle();
     }
 }
 

@@ -16,7 +16,6 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    color.cpp \
     colordata.cpp \
     comparisonresult.cpp \
     customqgraphicspixmapitem.cpp \
