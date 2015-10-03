@@ -13,8 +13,5 @@
 
 class InterfaceTeam{
 	public:
-		InterfaceTeam();
-		~InterfaceTeam();
-
 		static team_t send_test_case(TestCase tc);
 };

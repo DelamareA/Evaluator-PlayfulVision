@@ -12,11 +12,12 @@
 #include <QImage>
 #include <vector> 
 #include <string>
+#include <sstream>
+#include <fstream>
 
 #include "../template.h"
 
-typedef enum{TEAM_A, TEAM_B} team_t;
-typedef enum{IDX_TEAM_A, IDX_TEAM_B, IDX_REFEREE} template_index_t;
+typedef enum{IDX_TEAM_A = 0, IDX_TEAM_B = 1, IDX_REFEREE = 2} template_index_t;
 
 class TestCase{
 	public:
@@ -27,11 +28,13 @@ class TestCase{
 		team_t get_expected_result();
 		std::vector<Template> get_templates();
 
-		static to_string(TestCase tc);
-		static decode_from_string(std::string str);
-		static save_testcases_to_file(std::vector<TestCase> test_cases, std::string file_name);
+		static std::string save_test_case(TestCase tc);
+		static TestCase decode_from_string(std::string str);
+		static void save_testcases_to_file(std::vector<TestCase> test_cases, std::string file_name);
 
 	private:
+		std::string int_to_string(int n);
+		static int ms_instance_number = 0;
 		QImage m_player_image;
 		Team m_expected_result; 
 		std::vector<Template> m_templates;
