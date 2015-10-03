@@ -10,7 +10,7 @@
 
 #include <QWidget>
 #include <QImage>
-#include <vector> 
+#include <vector>
 #include <string>
 #include <sstream>
 #include <fstream>
@@ -21,22 +21,25 @@ typedef enum{IDX_TEAM_A = 0, IDX_TEAM_B = 1, IDX_REFEREE = 2} template_index_t;
 
 class TestCase{
 	public:
-		TestCase(QImage player_image, team_t expected_result, std::vector<Template> templates);
+		TestCase(QImage* player_image, team_t expected_result, std::vector<Template*> templates);
 		~TestCase();
 
 		QImage* get_player_image();
 		team_t get_expected_result();
 		std::vector<Template> get_templates();
+		int get_id();
 
-		static std::string save_test_case(TestCase tc);
-		static TestCase decode_from_string(std::string str);
-		static void save_testcases_to_file(std::vector<TestCase> test_cases, std::string file_name);
+		static std::string save_test_case(TestCase* tc);
+		static TestCase* decode_from_string(std::string str);
+		static void save_testcases_to_file(std::vector<TestCase*> test_cases, std::string file_name);
+		static TestCase* build_test_case_from_color_data(ColorData* cd);
 
 	private:
 		std::string int_to_string(int n);
-		static int ms_instance_number = 0;
-		QImage m_player_image;
-		Team m_expected_result; 
-		std::vector<Template> m_templates;
+		int m_instance_id = 0;
+		static int ms_instance_number;
+		QImage* m_player_image;
+		Team m_expected_result;
+		std::vector<Template*> m_templates;
 };
 #endif
