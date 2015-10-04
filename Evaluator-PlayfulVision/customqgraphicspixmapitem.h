@@ -22,7 +22,9 @@ class CustomQGraphicsPixmapItem : public QGraphicsPixmapItem{
         Data* getDataPointer();
         void setBrother(CustomQGraphicsPixmapItem* newBrother);
         CustomQGraphicsPixmapItem* getBrother();
+        QRectF getRect();
         void updateRectangle();
+        bool isOldest();
 
     protected :
         void keyReleaseEvent(QKeyEvent * event);
@@ -33,6 +35,7 @@ class CustomQGraphicsPixmapItem : public QGraphicsPixmapItem{
         FrameData* frameData;
         MainWindow* mainWindow;
         QGraphicsRectItem* rectItem;
+        bool oldest;
 };
 
 #endif // CUSTOMQGRAPHICSPIXMAPITEM_H

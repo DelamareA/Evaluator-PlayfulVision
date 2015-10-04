@@ -7,6 +7,8 @@ CustomQGraphicsPixmapItem::CustomQGraphicsPixmapItem(QPixmap& pixmap, Data* data
     this->brother = brother;
     this->rectItem = new QGraphicsRectItem();
     rectItem->setVisible(false);
+
+    oldest = (brother == 0);
 }
 
 QVariant CustomQGraphicsPixmapItem::itemChange(GraphicsItemChange change, const QVariant & value){
@@ -46,23 +48,33 @@ CustomQGraphicsPixmapItem* CustomQGraphicsPixmapItem::getBrother(){
 }
 
 void CustomQGraphicsPixmapItem::updateRectangle(){
-    if (!this->rectItem->isVisible()){
-        this->scene()->addItem(this->rectItem);
-        this->rectItem->setVisible(true);
-        this->rectItem->setPen(QPen(QColor(255, 0, 0)));
-    }
+    if (oldest){
+        if (!this->rectItem->isVisible()){
+            this->scene()->addItem(this->rectItem);
+            this->rectItem->setVisible(true);
+            this->rectItem->setPen(QPen(QColor(255, 0, 0)));
+        }
 
-    int x = 0;
-    int y = 0;
-    int width = 0;
-    int height = 0;
-    if (brother != 0){
-        x = std::min(this->pos().x() + IMAGE_POINTER_SIZE/2, brother->pos().x() + IMAGE_POINTER_SIZE/2);
-        y = std::min(this->pos().y() + IMAGE_POINTER_SIZE/2, brother->pos().y() + IMAGE_POINTER_SIZE/2);
-        width = abs(brother->pos().x() - this->pos().x());
-        height = abs(brother->pos().y() - this->pos().y());
+        int x = 0;
+        int y = 0;
+        int width = 0;
+        int height = 0;
+        if (brother != 0){
+            x = std::min(this->pos().x() + IMAGE_POINTER_SIZE/2, brother->pos().x() + IMAGE_POINTER_SIZE/2);
+            y = std::min(this->pos().y() + IMAGE_POINTER_SIZE/2, brother->pos().y() + IMAGE_POINTER_SIZE/2);
+            width = abs(brother->pos().x() - this->pos().x());
+            height = abs(brother->pos().y() - this->pos().y());
+        }
+        rectItem->setRect(x, y, width, height);
     }
-    rectItem->setRect(x, y, width, height);
+}
+
+bool CustomQGraphicsPixmapItem::isOldest(){
+    return oldest;
+}
+
+QRectF CustomQGraphicsPixmapItem::getRect(){
+    return rectItem->rect();
 }
 
 void CustomQGraphicsPixmapItem::keyReleaseEvent(QKeyEvent * event){

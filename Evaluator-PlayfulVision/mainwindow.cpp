@@ -161,16 +161,31 @@ void MainWindow::slotNextFrame(){
         videoData->addFrameData(currentFrame+1, new FrameData(videoData->getFrameData(currentFrame)));
 
         for (int i = 0; i < currentPixmaps.size(); i++){
-            Data* pointer = currentPixmaps[i]->getDataPointer();
-            Data* newPointer = 0;
+
             if (mode == NUMBER){
+                Data* pointer = currentPixmaps[i]->getDataPointer();
+                Data* newPointer = 0;
+
                 newPointer = new NumberData(pointer->toNumber());
+
+                videoData->getFrameData(currentFrame+1)->addData(newPointer);
+                currentPixmaps[i]->changePointers(newPointer, videoData->getFrameData(currentFrame+1));
             }
-            else {
-                newPointer = new ColorData(pointer->toColor());
+            else if (currentPixmaps[i]->isOldest()){
+                QPixmap snapshot = graphicsView->grab();
+                QImage* imageCropped = new QImage(snapshot.toImage().copy(currentPixmaps[i]->getRect().toRect()));
+
+
+                ColorData* pointer = (ColorData*)currentPixmaps[i]->getDataPointer();
+                pointer->setImage(imageCropped);
+
+                ColorData* newPointer = 0;
+                newPointer = new ColorData(pointer->toColor(), ((ColorData*)(pointer))->getTemplate());
+
+                videoData->getFrameData(currentFrame+1)->addData(newPointer);
+                currentPixmaps[i]->changePointers(newPointer, videoData->getFrameData(currentFrame+1));
             }
-            videoData->getFrameData(currentFrame+1)->addData(newPointer);
-            currentPixmaps[i]->changePointers(newPointer, videoData->getFrameData(currentFrame+1));
+
         }
 
 
@@ -221,13 +236,14 @@ void MainWindow::slotSpinInputValueChanged(int i){
 }
 
 void MainWindow::slotComboInputIndexChanged(int i){
+    qDebug() << "Called Combo";
     if (focusedPixmap != 0){
-        Data* oldData = focusedPixmap->getDataPointer();
+        ColorData* oldData = (ColorData *)focusedPixmap->getDataPointer();
 
-        Data* newData = 0;
+        ColorData* newData = 0;
 
         if (mode == COLOR){
-            newData = new ColorData(ColorData::intToColor(i), checkInputColorTemplate->isChecked());
+            newData = new ColorData(ColorData::intToColor(i), oldData->getTemplate());
 
             newData->setX(oldData->getX());
             newData->setY(oldData->getY());
@@ -249,14 +265,14 @@ void MainWindow::slotComboInputIndexChanged(int i){
 }
 
 void MainWindow::slotCheckInputStateChanged(int s){
-    qDebug() << "Called";
+    qDebug() << "Called Check";
     if (focusedPixmap != 0){
-        Data* oldData = focusedPixmap->getDataPointer();
+        ColorData* oldData = (ColorData *)focusedPixmap->getDataPointer();
 
         ColorData* newData = 0;
 
         if (mode == COLOR){
-            newData = new ColorData(ColorData::intToColor(comboInputColorTeam->currentIndex()), (bool)s);
+            newData = new ColorData(oldData->toColor(), (bool)s);
             qDebug() << "New data : " << newData;
 
             newData->setX(oldData->getX());
@@ -339,7 +355,7 @@ void MainWindow::createCustomPixmap(unsigned int x, unsigned int y){
 
     currentPixmaps.append(item);
 
-    item->updateRectangle();
+    updateRectangles();
 }
 
 void MainWindow::removeFocusedPixmap(CustomQGraphicsPixmapItem* pixmap){
