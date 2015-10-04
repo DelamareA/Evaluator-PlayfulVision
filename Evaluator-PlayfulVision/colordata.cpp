@@ -44,6 +44,9 @@ void ColorData::setTemplated(bool b){
 
 void ColorData::setImage(QImage* i){
     this->image = i;
+    if (isTemplate){
+        s_templates[color] = new Template(i, color);
+    }
 }
 
 bool ColorData::getTemplate(){
@@ -84,4 +87,8 @@ int ColorData::colorToInt(Color c){
         break;
     }
     return i;
+}
+
+std::vector<Template*> ColorData::getTemplates(){
+    return s_templates;
 }
