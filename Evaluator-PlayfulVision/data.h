@@ -5,7 +5,7 @@
 #include "math.h"
 #include <QWidget>
 
-
+// Abstract class, used to represent a position and either a number or color
 class Data {
 
     public:

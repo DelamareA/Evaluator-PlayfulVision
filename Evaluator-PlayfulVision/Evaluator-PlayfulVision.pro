@@ -23,7 +23,8 @@ SOURCES += main.cpp\
     data.cpp \
     framedata.cpp \
     numberdata.cpp \
-    videodata.cpp
+    videodata.cpp \
+    windowterminal.cpp
 
 HEADERS  += mainwindow.h \
     color.h \
@@ -35,6 +36,7 @@ HEADERS  += mainwindow.h \
     data.h \
     framedata.h \
     numberdata.h \
-    videodata.h
+    videodata.h \
+    windowterminal.h
 
 FORMS    +=

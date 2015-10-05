@@ -4,6 +4,7 @@
 #include <QSet>
 #include "data.h"
 
+// This class is just a set, which includes all the data in the current frame
 class FrameData{
 
     public:

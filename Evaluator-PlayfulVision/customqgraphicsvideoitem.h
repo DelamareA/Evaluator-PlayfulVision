@@ -5,6 +5,7 @@
 
 class MainWindow;
 
+// Class used for generating actions when the user clicks on the video
 class CustomQGraphicsVideoItem : public QGraphicsVideoItem{
 
     public:

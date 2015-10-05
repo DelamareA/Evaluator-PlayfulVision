@@ -12,6 +12,10 @@
 
 class MainWindow;
 
+
+/* This class is used to represent the image that appears when the user clicks on the window
+ *
+*/
 class CustomQGraphicsPixmapItem : public QGraphicsPixmapItem{
 
     public:
@@ -30,12 +34,12 @@ class CustomQGraphicsPixmapItem : public QGraphicsPixmapItem{
         void keyReleaseEvent(QKeyEvent * event);
 
     private:
-        CustomQGraphicsPixmapItem* brother;
-        Data* dataPointer;
-        FrameData* frameData;
+        CustomQGraphicsPixmapItem* brother; // used only for colors, represents the pointer on the other side of the rectangle
+        Data* dataPointer; // the data the image is linked to
+        FrameData* frameData; // the frame of this image
         MainWindow* mainWindow;
-        QGraphicsRectItem* rectItem;
-        bool oldest;
+        QGraphicsRectItem* rectItem; // the red rectangle
+        bool oldest; // indicates if the image is the first one for this rectangle
 };
 
 #endif // CUSTOMQGRAPHICSPIXMAPITEM_H

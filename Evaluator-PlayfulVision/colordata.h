@@ -2,9 +2,13 @@
 #define COLORDATA_H
 
 #include <vector>
-#include "templates.h"
+//#include "templates.h"
 #include "data.h"
 
+/*
+ * This class is used to represent a data used for colors
+ *
+*/
 class ColorData : public Data {
 
     public:
@@ -25,10 +29,10 @@ class ColorData : public Data {
 
         static Color intToColor(int);
         static int colorToInt(Color c);
-        static std::vector<Template*> getTemplates();
+        //static std::vector<Template*> getTemplates();
 
     private:
-        static std::vector<Template*> s_templates;
+        //static std::vector<Template*> s_templates;
       Color color;
       bool isTemplate;
       QImage* image;

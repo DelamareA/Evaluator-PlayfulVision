@@ -77,7 +77,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 
     QPushButton* buttonPrevious = new QPushButton("Previous frame", actionBar);
     layoutActionBar->addWidget(buttonPrevious);
-    //connect(buttonPrevious, SIGNAL(clicked ()), this, SLOT(slotSaveAndExit()));
+    connect(buttonPrevious, SIGNAL(clicked ()), this, SLOT(slotSaveAndExit()));
 
     QPushButton* buttonNext = new QPushButton("Next frame", actionBar);
     layoutActionBar->addWidget(buttonNext);
@@ -102,6 +102,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 
     pointerPixmap = new QPixmap("ressources/images/pointer.png");
     pointerPixmap2 = new QPixmap("ressources/images/pointer2.png");
+
+    terminal = new WindowTerminal();
 
 }
 
@@ -208,7 +210,8 @@ void MainWindow::slotActionLoadColorTriggered(bool b){
 }
 
 void MainWindow::slotSaveAndExit(){
-    graphicsView->setVisible(false);
+    //graphicsView->setVisible(false);
+    terminal->addText("Kapoiue");
 }
 
 void MainWindow::slotSpinInputValueChanged(int i){
