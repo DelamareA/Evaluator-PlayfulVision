@@ -27,7 +27,10 @@ SOURCES += main.cpp\
     comparator_team.cpp \
     interface_team.cpp \
     test_case.cpp \
-    template.cpp
+    template.cpp \
+    windowterminal.cpp \
+    comparator_number.cpp \
+    interface_number.cpp
     windowterminal.cpp
 
 HEADERS  += mainwindow.h \
@@ -44,7 +47,10 @@ HEADERS  += mainwindow.h \
     comparator_team.h \
     interface_team.h \
     template.h \
-    test_case.h
+    test_case.h \
+    windowterminal.h \
+    comparator_number.h \
+    interface_number.h
     windowterminal.h
 
 FORMS    +=

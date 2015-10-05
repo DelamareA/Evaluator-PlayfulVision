@@ -48,6 +48,9 @@ class MainWindow : public QMainWindow{
         void setFocusedPixmap(CustomQGraphicsPixmapItem* pixmap);
         void updateRectangles();
 
+        void create_terminal();
+        static void add_message_to_terminal(std::string msg);
+
     private slots:
         void displayVideoError(QMediaPlayer::Error error);
         void slotMediaStatusChanged(QMediaPlayer::MediaStatus state);
@@ -96,7 +99,7 @@ class MainWindow : public QMainWindow{
         CustomQGraphicsPixmapItem* focusedPixmap;
         QList<CustomQGraphicsPixmapItem*> currentPixmaps;
 
-        WindowTerminal* terminal;
+        static WindowTerminal* terminal;
 
 
         // _______________________________

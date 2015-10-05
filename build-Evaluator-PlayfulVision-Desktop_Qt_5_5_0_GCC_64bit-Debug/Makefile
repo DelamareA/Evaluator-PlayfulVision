@@ -61,7 +61,8 @@ SOURCES       = ../Evaluator-PlayfulVision/main.cpp \
 		../Evaluator-PlayfulVision/comparator_team.cpp \
 		../Evaluator-PlayfulVision/interface_team.cpp \
 		../Evaluator-PlayfulVision/test_case.cpp \
-		../Evaluator-PlayfulVision/template.cpp moc_mainwindow.cpp
+		../Evaluator-PlayfulVision/template.cpp \
+		../Evaluator-PlayfulVision/windowterminal.cpp moc_mainwindow.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
 		colordata.o \
@@ -76,6 +77,7 @@ OBJECTS       = main.o \
 		interface_team.o \
 		test_case.o \
 		template.o \
+		windowterminal.o \
 		moc_mainwindow.o
 DIST          = /opt/Qt/5.5/gcc_64/mkspecs/features/spec_pre.prf \
 		/opt/Qt/5.5/gcc_64/mkspecs/common/unix.conf \
@@ -221,7 +223,8 @@ DIST          = /opt/Qt/5.5/gcc_64/mkspecs/features/spec_pre.prf \
 		../Evaluator-PlayfulVision/comparator_team.h \
 		../Evaluator-PlayfulVision/interface_team.h \
 		../Evaluator-PlayfulVision/template.h \
-		../Evaluator-PlayfulVision/test_case.h ../Evaluator-PlayfulVision/main.cpp \
+		../Evaluator-PlayfulVision/test_case.h \
+		../Evaluator-PlayfulVision/windowterminal.h ../Evaluator-PlayfulVision/main.cpp \
 		../Evaluator-PlayfulVision/mainwindow.cpp \
 		../Evaluator-PlayfulVision/colordata.cpp \
 		../Evaluator-PlayfulVision/comparisonresult.cpp \
@@ -234,7 +237,8 @@ DIST          = /opt/Qt/5.5/gcc_64/mkspecs/features/spec_pre.prf \
 		../Evaluator-PlayfulVision/comparator_team.cpp \
 		../Evaluator-PlayfulVision/interface_team.cpp \
 		../Evaluator-PlayfulVision/test_case.cpp \
-		../Evaluator-PlayfulVision/template.cpp
+		../Evaluator-PlayfulVision/template.cpp \
+		../Evaluator-PlayfulVision/windowterminal.cpp
 QMAKE_TARGET  = Evaluator-PlayfulVision
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = Evaluator-PlayfulVision
@@ -554,8 +558,8 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents ../Evaluator-PlayfulVision/mainwindow.h ../Evaluator-PlayfulVision/color.h ../Evaluator-PlayfulVision/colordata.h ../Evaluator-PlayfulVision/comparisonresult.h ../Evaluator-PlayfulVision/constants.h ../Evaluator-PlayfulVision/customqgraphicspixmapitem.h ../Evaluator-PlayfulVision/customqgraphicsvideoitem.h ../Evaluator-PlayfulVision/data.h ../Evaluator-PlayfulVision/framedata.h ../Evaluator-PlayfulVision/numberdata.h ../Evaluator-PlayfulVision/videodata.h ../Evaluator-PlayfulVision/comparator_team.h ../Evaluator-PlayfulVision/interface_team.h ../Evaluator-PlayfulVision/template.h ../Evaluator-PlayfulVision/test_case.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../Evaluator-PlayfulVision/main.cpp ../Evaluator-PlayfulVision/mainwindow.cpp ../Evaluator-PlayfulVision/colordata.cpp ../Evaluator-PlayfulVision/comparisonresult.cpp ../Evaluator-PlayfulVision/customqgraphicspixmapitem.cpp ../Evaluator-PlayfulVision/customqgraphicsvideoitem.cpp ../Evaluator-PlayfulVision/data.cpp ../Evaluator-PlayfulVision/framedata.cpp ../Evaluator-PlayfulVision/numberdata.cpp ../Evaluator-PlayfulVision/videodata.cpp ../Evaluator-PlayfulVision/comparator_team.cpp ../Evaluator-PlayfulVision/interface_team.cpp ../Evaluator-PlayfulVision/test_case.cpp ../Evaluator-PlayfulVision/template.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../Evaluator-PlayfulVision/mainwindow.h ../Evaluator-PlayfulVision/color.h ../Evaluator-PlayfulVision/colordata.h ../Evaluator-PlayfulVision/comparisonresult.h ../Evaluator-PlayfulVision/constants.h ../Evaluator-PlayfulVision/customqgraphicspixmapitem.h ../Evaluator-PlayfulVision/customqgraphicsvideoitem.h ../Evaluator-PlayfulVision/data.h ../Evaluator-PlayfulVision/framedata.h ../Evaluator-PlayfulVision/numberdata.h ../Evaluator-PlayfulVision/videodata.h ../Evaluator-PlayfulVision/comparator_team.h ../Evaluator-PlayfulVision/interface_team.h ../Evaluator-PlayfulVision/template.h ../Evaluator-PlayfulVision/test_case.h ../Evaluator-PlayfulVision/windowterminal.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../Evaluator-PlayfulVision/main.cpp ../Evaluator-PlayfulVision/mainwindow.cpp ../Evaluator-PlayfulVision/colordata.cpp ../Evaluator-PlayfulVision/comparisonresult.cpp ../Evaluator-PlayfulVision/customqgraphicspixmapitem.cpp ../Evaluator-PlayfulVision/customqgraphicsvideoitem.cpp ../Evaluator-PlayfulVision/data.cpp ../Evaluator-PlayfulVision/framedata.cpp ../Evaluator-PlayfulVision/numberdata.cpp ../Evaluator-PlayfulVision/videodata.cpp ../Evaluator-PlayfulVision/comparator_team.cpp ../Evaluator-PlayfulVision/interface_team.cpp ../Evaluator-PlayfulVision/test_case.cpp ../Evaluator-PlayfulVision/template.cpp ../Evaluator-PlayfulVision/windowterminal.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -2633,6 +2637,125 @@ template.o: ../Evaluator-PlayfulVision/template.cpp ../Evaluator-PlayfulVision/t
 		/opt/Qt/5.5/gcc_64/include/QtGui/qtouchdevice.h \
 		/opt/Qt/5.5/gcc_64/include/QtGui/QImage
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o template.o ../Evaluator-PlayfulVision/template.cpp
+
+windowterminal.o: ../Evaluator-PlayfulVision/windowterminal.cpp ../Evaluator-PlayfulVision/windowterminal.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/QWidget \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qwidget.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qwindowdefs.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qglobal.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qconfig.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qfeatures.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qsystemdetection.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qprocessordetection.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qcompilerdetection.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qtypeinfo.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qtypetraits.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qsysinfo.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qlogging.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qflags.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qbasicatomic.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qgenericatomic.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_gcc.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_msvc.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_armv7.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_armv6.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_armv5.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_ia64.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_mips.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_x86.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_unix.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qglobalstatic.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qmutex.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qnumeric.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qnamespace.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qobject.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qstring.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qchar.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qbytearray.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qrefcount.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qarraydata.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qiterator.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qbytearraylist.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qstringlist.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qregexp.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qstringmatcher.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qcoreevent.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qscopedpointer.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qmetatype.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qvarlengtharray.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qcontainerfwd.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qisenum.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qobject_impl.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qmargins.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qpaintdevice.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qrect.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qsize.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qpoint.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qpalette.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qcolor.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qrgb.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qbrush.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qpair.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qvector.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qmatrix.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qpolygon.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qregion.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qdatastream.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qiodevice.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qline.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qtransform.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qpainterpath.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qimage.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qpixelformat.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qpixmap.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qsharedpointer.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qshareddata.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qhash.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qfont.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qfontmetrics.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qfontinfo.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qcursor.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qkeysequence.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qevent.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qvariant.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qmap.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qdebug.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qtextstream.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qlocale.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qset.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qcontiguouscache.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qurl.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qurlquery.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qfile.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qfiledevice.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qvector2d.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qtouchdevice.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/QTextEdit \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qtextedit.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qframe.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qtextdocument.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qtextoption.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qtextcursor.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qtextformat.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qpen.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/QVBoxLayout \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qboxlayout.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qlayout.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qlayoutitem.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qgridlayout.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o windowterminal.o ../Evaluator-PlayfulVision/windowterminal.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp

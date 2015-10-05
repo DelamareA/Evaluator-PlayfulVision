@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 
+WindowTerminal* MainWindow::terminal = NULL;
+
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
     setWindowTitle("Evaluator");
 
@@ -102,8 +104,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 
     pointerPixmap = new QPixmap("ressources/images/pointer.png");
     pointerPixmap2 = new QPixmap("ressources/images/pointer2.png");
-
-    //terminal = new WindowTerminal();
 
 }
 
@@ -211,7 +211,7 @@ void MainWindow::slotActionLoadColorTriggered(bool b){
 
 void MainWindow::slotSaveAndExit(){
     //graphicsView->setVisible(false);
-    //terminal->addText("Kapoiue");
+    terminal->addText("Kapoiue");
 }
 
 void MainWindow::slotSpinInputValueChanged(int i){
@@ -414,4 +414,12 @@ void MainWindow::setCorrectTimeAndFrame(){
     labelVideoTime->setText(stringTimeMinutes + " : " + stringTimeSeconds + " / " + stringDurationMinutes + " : " + stringDurationSeconds);
 
     labelVideoFrame->setText("Frame " +  QString::number(currentFrame) + " / " + QString::number(player->duration()/frameDuration));
+}
+
+void MainWindow::create_terminal(){
+    terminal = new WindowTerminal();
+}
+
+void MainWindow::add_message_to_terminal(std::string msg){
+    terminal->addText(QString::fromUtf8(msg.c_str()));
 }
