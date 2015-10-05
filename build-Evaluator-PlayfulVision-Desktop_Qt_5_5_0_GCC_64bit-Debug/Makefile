@@ -779,6 +779,14 @@ moc_mainwindow.cpp: /opt/Qt/5.5/gcc_64/include/QtWidgets/QMainWindow \
 		../Evaluator-PlayfulVision/comparisonresult.h \
 		../Evaluator-PlayfulVision/numberdata.h \
 		../Evaluator-PlayfulVision/colordata.h \
+		../Evaluator-PlayfulVision/template.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/QImage \
+		../Evaluator-PlayfulVision/windowterminal.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/QTextEdit \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qtextedit.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qtextdocument.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qtextcursor.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qtextformat.h \
 		../Evaluator-PlayfulVision/mainwindow.h
 	/opt/Qt/5.5/gcc_64/bin/moc $(DEFINES) -I/opt/Qt/5.5/gcc_64/mkspecs/linux-g++ -I/home/jbouron/EPFL/BA5/PlayfulVision/Evaluator-PlayfulVision/Evaluator-PlayfulVision -I/opt/Qt/5.5/gcc_64/include -I/opt/Qt/5.5/gcc_64/include/QtMultimediaWidgets -I/opt/Qt/5.5/gcc_64/include/QtMultimedia -I/opt/Qt/5.5/gcc_64/include/QtWidgets -I/opt/Qt/5.5/gcc_64/include/QtGui -I/opt/Qt/5.5/gcc_64/include/QtNetwork -I/opt/Qt/5.5/gcc_64/include/QtCore -I. ../Evaluator-PlayfulVision/mainwindow.h -o moc_mainwindow.cpp
 
@@ -995,6 +1003,14 @@ main.o: ../Evaluator-PlayfulVision/main.cpp ../Evaluator-PlayfulVision/mainwindo
 		../Evaluator-PlayfulVision/comparisonresult.h \
 		../Evaluator-PlayfulVision/numberdata.h \
 		../Evaluator-PlayfulVision/colordata.h \
+		../Evaluator-PlayfulVision/template.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/QImage \
+		../Evaluator-PlayfulVision/windowterminal.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/QTextEdit \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qtextedit.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qtextdocument.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qtextcursor.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qtextformat.h \
 		/opt/Qt/5.5/gcc_64/include/QtWidgets/QApplication \
 		/opt/Qt/5.5/gcc_64/include/QtWidgets/qapplication.h \
 		/opt/Qt/5.5/gcc_64/include/QtCore/qcoreapplication.h \
@@ -1202,12 +1218,19 @@ mainwindow.o: ../Evaluator-PlayfulVision/mainwindow.cpp ../Evaluator-PlayfulVisi
 		/opt/Qt/5.5/gcc_64/include/QtCore/QMap \
 		../Evaluator-PlayfulVision/comparisonresult.h \
 		../Evaluator-PlayfulVision/numberdata.h \
-		../Evaluator-PlayfulVision/colordata.h
+		../Evaluator-PlayfulVision/colordata.h \
+		../Evaluator-PlayfulVision/template.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/QImage \
+		../Evaluator-PlayfulVision/windowterminal.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/QTextEdit \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qtextedit.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qtextdocument.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qtextcursor.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qtextformat.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../Evaluator-PlayfulVision/mainwindow.cpp
 
 colordata.o: ../Evaluator-PlayfulVision/colordata.cpp ../Evaluator-PlayfulVision/colordata.h \
-		../Evaluator-PlayfulVision/data.h \
-		../Evaluator-PlayfulVision/color.h \
+		../Evaluator-PlayfulVision/template.h \
 		/opt/Qt/5.5/gcc_64/include/QtWidgets/QWidget \
 		/opt/Qt/5.5/gcc_64/include/QtWidgets/qwidget.h \
 		/opt/Qt/5.5/gcc_64/include/QtGui/qwindowdefs.h \
@@ -1309,7 +1332,10 @@ colordata.o: ../Evaluator-PlayfulVision/colordata.cpp ../Evaluator-PlayfulVision
 		/opt/Qt/5.5/gcc_64/include/QtCore/qfile.h \
 		/opt/Qt/5.5/gcc_64/include/QtCore/qfiledevice.h \
 		/opt/Qt/5.5/gcc_64/include/QtGui/qvector2d.h \
-		/opt/Qt/5.5/gcc_64/include/QtGui/qtouchdevice.h
+		/opt/Qt/5.5/gcc_64/include/QtGui/qtouchdevice.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/QImage \
+		../Evaluator-PlayfulVision/data.h \
+		../Evaluator-PlayfulVision/color.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o colordata.o ../Evaluator-PlayfulVision/colordata.cpp
 
 comparisonresult.o: ../Evaluator-PlayfulVision/comparisonresult.cpp ../Evaluator-PlayfulVision/comparisonresult.h
@@ -1513,7 +1539,15 @@ customqgraphicspixmapitem.o: ../Evaluator-PlayfulVision/customqgraphicspixmapite
 		/opt/Qt/5.5/gcc_64/include/QtCore/QMap \
 		../Evaluator-PlayfulVision/comparisonresult.h \
 		../Evaluator-PlayfulVision/numberdata.h \
-		../Evaluator-PlayfulVision/colordata.h
+		../Evaluator-PlayfulVision/colordata.h \
+		../Evaluator-PlayfulVision/template.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/QImage \
+		../Evaluator-PlayfulVision/windowterminal.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/QTextEdit \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qtextedit.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qtextdocument.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qtextcursor.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qtextformat.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o customqgraphicspixmapitem.o ../Evaluator-PlayfulVision/customqgraphicspixmapitem.cpp
 
 customqgraphicsvideoitem.o: ../Evaluator-PlayfulVision/customqgraphicsvideoitem.cpp ../Evaluator-PlayfulVision/mainwindow.h \
@@ -1714,7 +1748,15 @@ customqgraphicsvideoitem.o: ../Evaluator-PlayfulVision/customqgraphicsvideoitem.
 		/opt/Qt/5.5/gcc_64/include/QtCore/QMap \
 		../Evaluator-PlayfulVision/comparisonresult.h \
 		../Evaluator-PlayfulVision/numberdata.h \
-		../Evaluator-PlayfulVision/colordata.h
+		../Evaluator-PlayfulVision/colordata.h \
+		../Evaluator-PlayfulVision/template.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/QImage \
+		../Evaluator-PlayfulVision/windowterminal.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/QTextEdit \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qtextedit.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qtextdocument.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qtextcursor.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qtextformat.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o customqgraphicsvideoitem.o ../Evaluator-PlayfulVision/customqgraphicsvideoitem.cpp
 
 data.o: ../Evaluator-PlayfulVision/data.cpp ../Evaluator-PlayfulVision/data.h \
@@ -2255,10 +2297,124 @@ comparator_team.o: ../Evaluator-PlayfulVision/comparator_team.cpp ../Evaluator-P
 		/opt/Qt/5.5/gcc_64/include/QtGui/qvector2d.h \
 		/opt/Qt/5.5/gcc_64/include/QtGui/qtouchdevice.h \
 		/opt/Qt/5.5/gcc_64/include/QtGui/QImage \
+		../Evaluator-PlayfulVision/template.h \
+		../Evaluator-PlayfulVision/colordata.h \
+		../Evaluator-PlayfulVision/data.h \
+		../Evaluator-PlayfulVision/color.h \
+		../Evaluator-PlayfulVision/numberdata.h \
 		../Evaluator-PlayfulVision/interface_team.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o comparator_team.o ../Evaluator-PlayfulVision/comparator_team.cpp
 
-interface_team.o: ../Evaluator-PlayfulVision/interface_team.cpp 
+interface_team.o: ../Evaluator-PlayfulVision/interface_team.cpp ../Evaluator-PlayfulVision/interface_team.h \
+		../Evaluator-PlayfulVision/test_case.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/QWidget \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qwidget.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qwindowdefs.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qglobal.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qconfig.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qfeatures.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qsystemdetection.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qprocessordetection.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qcompilerdetection.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qtypeinfo.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qtypetraits.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qsysinfo.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qlogging.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qflags.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qbasicatomic.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qgenericatomic.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_gcc.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_msvc.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_armv7.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_armv6.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_armv5.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_ia64.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_mips.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_x86.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qatomic_unix.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qglobalstatic.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qmutex.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qnumeric.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qnamespace.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qobject.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qstring.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qchar.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qbytearray.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qrefcount.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qarraydata.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qiterator.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qbytearraylist.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qstringlist.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qregexp.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qstringmatcher.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qcoreevent.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qscopedpointer.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qmetatype.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qvarlengtharray.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qcontainerfwd.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qisenum.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qobject_impl.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qmargins.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qpaintdevice.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qrect.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qsize.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qpoint.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qpalette.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qcolor.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qrgb.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qbrush.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qpair.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qvector.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qmatrix.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qpolygon.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qregion.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qdatastream.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qiodevice.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qline.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qtransform.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qpainterpath.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qimage.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qpixelformat.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qpixmap.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qsharedpointer.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qshareddata.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qhash.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qfont.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qfontmetrics.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qfontinfo.h \
+		/opt/Qt/5.5/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qcursor.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qkeysequence.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qevent.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qvariant.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qmap.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qdebug.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qtextstream.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qlocale.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qset.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qcontiguouscache.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qurl.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qurlquery.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qfile.h \
+		/opt/Qt/5.5/gcc_64/include/QtCore/qfiledevice.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qvector2d.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/qtouchdevice.h \
+		/opt/Qt/5.5/gcc_64/include/QtGui/QImage \
+		../Evaluator-PlayfulVision/template.h \
+		../Evaluator-PlayfulVision/colordata.h \
+		../Evaluator-PlayfulVision/data.h \
+		../Evaluator-PlayfulVision/color.h \
+		../Evaluator-PlayfulVision/numberdata.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o interface_team.o ../Evaluator-PlayfulVision/interface_team.cpp
 
 test_case.o: ../Evaluator-PlayfulVision/test_case.cpp ../Evaluator-PlayfulVision/test_case.h \
@@ -2364,7 +2520,12 @@ test_case.o: ../Evaluator-PlayfulVision/test_case.cpp ../Evaluator-PlayfulVision
 		/opt/Qt/5.5/gcc_64/include/QtCore/qfiledevice.h \
 		/opt/Qt/5.5/gcc_64/include/QtGui/qvector2d.h \
 		/opt/Qt/5.5/gcc_64/include/QtGui/qtouchdevice.h \
-		/opt/Qt/5.5/gcc_64/include/QtGui/QImage
+		/opt/Qt/5.5/gcc_64/include/QtGui/QImage \
+		../Evaluator-PlayfulVision/template.h \
+		../Evaluator-PlayfulVision/colordata.h \
+		../Evaluator-PlayfulVision/data.h \
+		../Evaluator-PlayfulVision/color.h \
+		../Evaluator-PlayfulVision/numberdata.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o test_case.o ../Evaluator-PlayfulVision/test_case.cpp
 
 template.o: ../Evaluator-PlayfulVision/template.cpp ../Evaluator-PlayfulVision/template.h \

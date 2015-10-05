@@ -47,11 +47,7 @@ void ColorData::setTemplated(bool b){
 void ColorData::setImage(QImage* i){
     this->image = i;
     if (isTemplate){
-<<<<<<< HEAD
         ColorData::s_templates[color] = new Template(*i, colorToTeam(color));
-=======
-        //s_templates[color] = new Template(i, color);
->>>>>>> 4b8b4ed5e72c494ad1cde9fbc80b7977c769a0cb
     }
 }
 
@@ -95,7 +91,6 @@ int ColorData::colorToInt(Color c){
     return i;
 }
 
-<<<<<<< HEAD
 team_t ColorData::colorToTeam(Color c){
     switch (c){
         case TEAM_1 : return TEAM_A; break;
@@ -105,8 +100,5 @@ team_t ColorData::colorToTeam(Color c){
 }
 
 std::vector<Template*> ColorData::getTemplates(){
-=======
-/*std::vector<Template*> ColorData::getTemplates(){
->>>>>>> 4b8b4ed5e72c494ad1cde9fbc80b7977c769a0cb
     return s_templates;
-}*/
+}

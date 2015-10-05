@@ -24,14 +24,11 @@ SOURCES += main.cpp\
     framedata.cpp \
     numberdata.cpp \
     videodata.cpp \
-<<<<<<< HEAD
     comparator_team.cpp \
     interface_team.cpp \
     test_case.cpp \
     template.cpp
-=======
     windowterminal.cpp
->>>>>>> 4b8b4ed5e72c494ad1cde9fbc80b7977c769a0cb
 
 HEADERS  += mainwindow.h \
     color.h \
@@ -44,13 +41,10 @@ HEADERS  += mainwindow.h \
     framedata.h \
     numberdata.h \
     videodata.h \
-<<<<<<< HEAD
     comparator_team.h \
     interface_team.h \
     template.h \
     test_case.h
-=======
     windowterminal.h
->>>>>>> 4b8b4ed5e72c494ad1cde9fbc80b7977c769a0cb
 
 FORMS    +=

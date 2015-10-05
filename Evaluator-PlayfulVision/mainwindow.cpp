@@ -103,7 +103,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
     pointerPixmap = new QPixmap("ressources/images/pointer.png");
     pointerPixmap2 = new QPixmap("ressources/images/pointer2.png");
 
-    terminal = new WindowTerminal();
+    //terminal = new WindowTerminal();
 
 }
 
@@ -211,7 +211,7 @@ void MainWindow::slotActionLoadColorTriggered(bool b){
 
 void MainWindow::slotSaveAndExit(){
     //graphicsView->setVisible(false);
-    terminal->addText("Kapoiue");
+    //terminal->addText("Kapoiue");
 }
 
 void MainWindow::slotSpinInputValueChanged(int i){

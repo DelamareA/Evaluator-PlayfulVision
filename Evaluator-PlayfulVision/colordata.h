@@ -2,11 +2,7 @@
 #define COLORDATA_H
 
 #include <vector>
-<<<<<<< HEAD
 #include "template.h"
-=======
-//#include "templates.h"
->>>>>>> 4b8b4ed5e72c494ad1cde9fbc80b7977c769a0cb
 #include "data.h"
 
 /*
@@ -33,15 +29,12 @@ class ColorData : public Data {
 
         static Color intToColor(int);
         static int colorToInt(Color c);
-<<<<<<< HEAD
+
         static std::vector<Template*> getTemplates();
         static team_t colorToTeam(Color c);
-=======
-        //static std::vector<Template*> getTemplates();
->>>>>>> 4b8b4ed5e72c494ad1cde9fbc80b7977c769a0cb
 
     private:
-        //static std::vector<Template*> s_templates;
+        static std::vector<Template*> s_templates;
       Color color;
       bool isTemplate;
       QImage* image;
