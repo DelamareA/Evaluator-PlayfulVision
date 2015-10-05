@@ -3,6 +3,7 @@
 
 #include "data.h"
 
+// This class is a subclass of data which represents a number
 class NumberData : public Data {
 
     public:

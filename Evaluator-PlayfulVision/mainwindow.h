@@ -29,9 +29,12 @@
 #include "numberdata.h"
 #include "colordata.h"
 #include "constants.h"
+#include "windowterminal.h"
 
 class CustomQGraphicsPixmapItem;
 
+
+// Main class for this program, all the interface is in there
 class MainWindow : public QMainWindow{
     Q_OBJECT
 
@@ -92,6 +95,8 @@ class MainWindow : public QMainWindow{
         QPixmap* pointerPixmap2;
         CustomQGraphicsPixmapItem* focusedPixmap;
         QList<CustomQGraphicsPixmapItem*> currentPixmaps;
+
+        WindowTerminal* terminal;
 
 
         // _______________________________

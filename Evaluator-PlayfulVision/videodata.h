@@ -7,6 +7,7 @@
 
 #include "constants.h"
 
+// Class that is a map of FrameData, contains all the datas in a video
 class VideoData {
 
     public:
