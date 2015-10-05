@@ -8,8 +8,12 @@ class NumberData : public Data {
 
     public:
         NumberData();
+        NumberData(QImage* img, int val);
         NumberData(int val);
         ~NumberData();
+
+        QImage* set_image(QImage* img);
+        QImage* get_image();
 
         unsigned int toNumber();
         Color toColor();
@@ -18,6 +22,7 @@ class NumberData : public Data {
 
     private:
         unsigned int val;
+        QImage* m_img;
 };
 
 #endif // NUMBERDATA_H

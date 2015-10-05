@@ -153,7 +153,7 @@ void NumTestCase::save_testcases_to_file(std::vector<NumTestCase*> test_cases, s
 }
 
 NumTestCase* NumTestCase::build_test_case_from_number_data(NumberData* cd){
-    return NULL;
+    return new NumTestCase(cd->get_image(), cd->toNumber());
 }
 
 int NumTestCase::string_to_int(std::string s){
