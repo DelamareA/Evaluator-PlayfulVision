@@ -12,6 +12,7 @@
 
 #include "test_case.h"
 #include "interface_team.h"
+#include "mainwindow.h"
 #include <fstream>
 
 typedef struct{

@@ -17,17 +17,24 @@ ComparatorTeam::ComparatorTeam(std::string test_case_file){
 ComparatorTeam::~ComparatorTeam() {}
 
 void ComparatorTeam::run_test_cases(){
+    std::string terminal_message;
+    MainWindow::add_message_to_terminal("Team membership tests running ...");
 	for (int i = 0; i < m_test_cases.size(); i ++){
+        terminal_message = "Test " + TeamTestCase::int_to_string(i) + " : ";
 		team_t algo_result = InterfaceTeam::send_test_case(m_test_cases[i]);
         if (algo_result == m_test_cases[i]->get_expected_result()){
 			m_results.success ++;
+            terminal_message += "SUCCESS.";
 		}
 		else if (algo_result == TEAM_UNKNOWN){
 			m_results.undermined ++;
+            terminal_message += "UNDETERMINED.";
 		}
 		else{
-			m_results.fails ++;
+            m_results.fails ++;
+            terminal_message += "FAILED";
 		}
+        MainWindow::add_message_to_terminal(terminal_message);
 	}
 }
 
