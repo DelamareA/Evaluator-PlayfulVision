@@ -37,7 +37,7 @@ std::string TeamTestCase::save_test_case(TeamTestCase* tc){
     }
 
     std::string file_name_player_image = "player_test_case_" + int_to_string(tc->get_id()) + ".jpg";
-    Qimage* player_image = tc->get_player_image();
+    QImage* player_image = tc->get_player_image();
     if (player_image == NULL){
         qDebug() << "Error at TeamTestCase::save_test_case, null pointer on player image, testcase with id " << tc->get_id();
     }
@@ -116,7 +116,7 @@ TeamTestCase* TeamTestCase::decode_from_string(std::string str){
 	if (expected == "0") expct = TEAM_A;
 	else if (expected == "1") expct = TEAM_B;
 	else if (expected == "2") expct = TEAM_REFEREE;
-    else qDebug() << "Error in TeamTestCase::decode_from_string, invalid expected team : " << expected;
+    else qDebug() << "Error in TeamTestCase::decode_from_string, invalid expected team : " << QString::fromUtf8(expected.c_str());
 
 	Template* t_A = new Template(template_A_image, TEAM_A);
 	Template* t_B = new Template(template_B_image, TEAM_B);
@@ -196,7 +196,7 @@ NumTestCase* NumTestCase::decode_from_string(std::string str){
     QImage* img = new QImage();
     img->load(QString::fromUtf8(filename.c_str()));
     if (img == NULL){
-        qDebug() << "Error in NumTestCase::decode_from_string, can't load image " << filename;
+        qDebug() << "Error in NumTestCase::decode_from_string, can't load image " << QString::fromUtf8(filename.c_str());
     }
     return new NumTestCase(img, string_to_int(expct));
 }

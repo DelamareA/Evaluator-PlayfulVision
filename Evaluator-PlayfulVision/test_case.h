@@ -10,6 +10,7 @@
 
 #include <QWidget>
 #include <QImage>
+#include <QDebug>
 #include <vector>
 #include <string>
 #include <sstream>
