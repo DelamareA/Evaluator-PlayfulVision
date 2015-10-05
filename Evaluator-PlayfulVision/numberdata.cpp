@@ -4,7 +4,7 @@ NumberData::NumberData(){
     this->val = 1;
 }
 
-NumberData(QImage* img, int val){
+NumberData::NumberData(QImage* img, int val){
     m_img = img;
     this->val = val;
 }
@@ -17,11 +17,11 @@ NumberData::~NumberData(){
 
 }
 
-QImage* set_image(QImage* img){
+QImage* NumberData::set_image(QImage* img){
     m_img = img;
 }
 
-QImage* get_image(){
+QImage* NumberData::get_image(){
     return m_img;
 }
 

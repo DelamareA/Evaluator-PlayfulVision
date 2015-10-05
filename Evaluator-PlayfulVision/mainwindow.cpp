@@ -210,8 +210,14 @@ void MainWindow::slotActionLoadColorTriggered(bool b){
 }
 
 void MainWindow::slotSaveAndExit(){
-    //graphicsView->setVisible(false);
-    terminal->addText("Kapoiue");
+    std::vector<TeamTestCase*> team_tc = this->create_team_test_cases_from_data();
+    std::vector<NumTestCase*> number_tc = this->create_number_test_cases_from_data();
+    if (team_tc.size() > 0){
+        TeamTestCase::save_testcases_to_file(team_tc, "Team_test_cases.txt");
+    }
+    else if (number_tc.size() > 0){
+        NumTestCase::save_testcases_to_file(number_tc, "Number_test_cases.txt");
+    }
 }
 
 void MainWindow::slotSpinInputValueChanged(int i){
@@ -433,7 +439,7 @@ std::vector<TeamTestCase*> MainWindow::create_team_test_cases_from_data(){
         while (it.hasNext()){
             Data* data = it.next();
             if (data->isColor()){
-                test_cases.push_back(TeamTestCase::build_test_case_from_color_data(data));
+                test_cases.push_back(TeamTestCase::build_test_case_from_color_data((ColorData*) data));
             }
         }
     }
@@ -449,7 +455,7 @@ std::vector<NumTestCase*> MainWindow::create_number_test_cases_from_data(){
         while (it.hasNext()){
             Data* data = it.next();
             if (data->isNumber()){
-                test_cases.push_back(NumTestCase::build_test_case_from_number_data(data));
+                test_cases.push_back(NumTestCase::build_test_case_from_number_data((NumberData*) data));
             }
         }
     }
