@@ -295,7 +295,7 @@ void MainWindow::slotCheckInputStateChanged(int s){
 }
 
 void MainWindow::loadVideo(){
-    QString fileName = QFileDialog::getOpenFileName(this, "Open a video", QString(), "Video (*.webm; *.wmv; *.mp4)");
+    QString fileName = QFileDialog::getOpenFileName(this, "Open a video", QString(), "Video (*)");
     if (!fileName.isNull()){
 
        player->setMedia(QUrl::fromLocalFile(fileName));

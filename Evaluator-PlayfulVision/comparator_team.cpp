@@ -1,10 +1,10 @@
 #include "comparator_team.h"
 
 ComparatorTeam::ComparatorTeam(std::string test_case_file){
-	ifstream file(test_case_file.c_str(), ios::in);
+    std::ifstream file(test_case_file.c_str(), std::ios::in);
 	std::string line;
 	while (getline(file, line)){
-		m_test_cases.push_back(TestCase::decode_from_string(line));
+        m_test_cases.push_back(TeamTestCase::decode_from_string(line));
 	}
 	file.close();
 
@@ -19,7 +19,7 @@ ComparatorTeam::~ComparatorTeam() {}
 void ComparatorTeam::run_test_cases(){
 	for (int i = 0; i < m_test_cases.size(); i ++){
 		team_t algo_result = InterfaceTeam::send_test_case(m_test_cases[i]);
-		if (algo_result == m_test_cases[i].get_expected_result()){
+        if (algo_result == m_test_cases[i]->get_expected_result()){
 			m_results.success ++;
 		}
 		else if (algo_result == TEAM_UNKNOWN){

@@ -1,5 +1,7 @@
 #include "colordata.h"
 
+std::vector<Template*> ColorData::s_templates;
+
 ColorData::ColorData() {
     this->color = TEAM_1;
     this->isTemplate = false;
@@ -45,7 +47,7 @@ void ColorData::setTemplated(bool b){
 void ColorData::setImage(QImage* i){
     this->image = i;
     if (isTemplate){
-        s_templates[color] = new Template(i, color);
+        ColorData::s_templates[color] = new Template(*i, colorToTeam(color));
     }
 }
 
@@ -87,6 +89,14 @@ int ColorData::colorToInt(Color c){
         break;
     }
     return i;
+}
+
+team_t ColorData::colorToTeam(Color c){
+    switch (c){
+        case TEAM_1 : return TEAM_A; break;
+        case TEAM_2 : return TEAM_B; break;
+        case REFEREE : return TEAM_REFEREE; break;
+    }
 }
 
 std::vector<Template*> ColorData::getTemplates(){

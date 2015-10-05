@@ -23,7 +23,11 @@ SOURCES += main.cpp\
     data.cpp \
     framedata.cpp \
     numberdata.cpp \
-    videodata.cpp
+    videodata.cpp \
+    comparator_team.cpp \
+    interface_team.cpp \
+    test_case.cpp \
+    template.cpp
 
 HEADERS  += mainwindow.h \
     color.h \
@@ -35,6 +39,10 @@ HEADERS  += mainwindow.h \
     data.h \
     framedata.h \
     numberdata.h \
-    videodata.h
+    videodata.h \
+    comparator_team.h \
+    interface_team.h \
+    template.h \
+    test_case.h
 
 FORMS    +=

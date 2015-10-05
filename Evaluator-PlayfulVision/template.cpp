@@ -10,4 +10,4 @@ Template::~Template(){
 }
 
 QImage Template::get_template() {return m_image;}
-team_t get_template_team() {return m_team;}
+team_t Template::get_template_team() {return m_team;}

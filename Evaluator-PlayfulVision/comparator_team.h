@@ -12,6 +12,7 @@
 
 #include "test_case.h"
 #include "interface_team.h"
+#include <fstream>
 
 typedef struct{
 	int success;
@@ -30,6 +31,6 @@ public:
 	comparison_results_t retreive_test_results();
 
 private:
-	std::vector<TestCase*> m_test_cases;
+    std::vector<TeamTestCase*> m_test_cases;
 	comparison_results_t m_results;
 };

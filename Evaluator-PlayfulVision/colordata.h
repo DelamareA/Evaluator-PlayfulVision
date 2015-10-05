@@ -2,7 +2,7 @@
 #define COLORDATA_H
 
 #include <vector>
-#include "templates.h"
+#include "template.h"
 #include "data.h"
 
 class ColorData : public Data {
@@ -26,6 +26,7 @@ class ColorData : public Data {
         static Color intToColor(int);
         static int colorToInt(Color c);
         static std::vector<Template*> getTemplates();
+        static team_t colorToTeam(Color c);
 
     private:
         static std::vector<Template*> s_templates;
