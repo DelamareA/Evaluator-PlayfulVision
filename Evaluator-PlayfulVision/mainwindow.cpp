@@ -423,3 +423,35 @@ void MainWindow::create_terminal(){
 void MainWindow::add_message_to_terminal(std::string msg){
     terminal->addText(QString::fromUtf8(msg.c_str()));
 }
+
+std::vector<TeamTestCase*> MainWindow::create_team_test_cases_from_data(){
+    Time t = 0;
+    std::vector<TeamTestCase*> test_cases;
+    FrameData* f_data = videoData->getFrameData(t);
+    while (f_data != NULL){
+        QSetIterator<Data *> it = f_data->iterator();
+        while (it.hasNext()){
+            Data* data = it.next();
+            if (data->isColor()){
+                test_cases.push_back(TeamTestCase::build_test_case_from_color_data(data));
+            }
+        }
+    }
+    return test_cases;
+}
+
+std::vector<NumTestCase*> MainWindow::create_number_test_cases_from_data(){
+    Time t = 0;
+    std::vector<NumTestCase*> test_cases;
+    FrameData* f_data = videoData->getFrameData(t);
+    while (f_data != NULL){
+        QSetIterator<Data *> it = f_data->iterator();
+        while (it.hasNext()){
+            Data* data = it.next();
+            if (data->isNumber()){
+                test_cases.push_back(NumTestCase::build_test_case_from_number_data(data));
+            }
+        }
+    }
+    return test_cases;
+}

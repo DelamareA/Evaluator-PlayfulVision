@@ -152,7 +152,7 @@ void NumTestCase::save_testcases_to_file(std::vector<NumTestCase*> test_cases, s
     file.close();
 }
 
-NumTestCase* NumTestCase::build_test_case_from_color_data(NumberData* cd){
+NumTestCase* NumTestCase::build_test_case_from_number_data(NumberData* cd){
     return NULL;
 }
 

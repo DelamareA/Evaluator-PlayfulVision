@@ -56,7 +56,7 @@ public:
     static std::string save_test_case(NumTestCase* tc);
     static NumTestCase* decode_from_string(std::string str);
     static void save_testcases_to_file(std::vector<NumTestCase*> test_cases, std::string file_name);
-    static NumTestCase* build_test_case_from_color_data(NumberData* cd);
+    static NumTestCase* build_test_case_from_number_data(NumberData* cd);
 
     static int string_to_int(std::string s);
 

@@ -30,6 +30,7 @@
 #include "colordata.h"
 #include "constants.h"
 #include "windowterminal.h"
+#include "test_case.h"
 
 class CustomQGraphicsPixmapItem;
 
@@ -50,6 +51,9 @@ class MainWindow : public QMainWindow{
 
         void create_terminal();
         static void add_message_to_terminal(std::string msg);
+
+        std::vector<TeamTestCase*> create_team_test_cases_from_data();
+        std::vector<NumTestCase*> create_number_test_cases_from_data();
 
     private slots:
         void displayVideoError(QMediaPlayer::Error error);
