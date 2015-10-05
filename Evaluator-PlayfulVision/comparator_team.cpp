@@ -21,6 +21,9 @@ void ComparatorTeam::run_test_cases(){
     MainWindow::add_message_to_terminal("Team membership tests running ...");
 	for (int i = 0; i < m_test_cases.size(); i ++){
         terminal_message = "Test " + TeamTestCase::int_to_string(i) + " : ";
+        if (m_test_cases[i] == NULL){
+            qDebug() << "Error at ComparatorTeam::run_test_cases, null pointer in test cases";
+        }
 		team_t algo_result = InterfaceTeam::send_test_case(m_test_cases[i]);
         if (algo_result == m_test_cases[i]->get_expected_result()){
 			m_results.success ++;

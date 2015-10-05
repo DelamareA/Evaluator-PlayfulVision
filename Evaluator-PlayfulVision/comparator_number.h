@@ -2,6 +2,7 @@
 #include "interface_number.h"
 #include "mainwindow.h"
 #include <fstream>
+#include <QDebug>
 
 typedef struct{
     int success;

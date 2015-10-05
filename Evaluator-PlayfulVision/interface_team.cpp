@@ -6,5 +6,11 @@
 #include "interface_team.h"
 
 team_t InterfaceTeam::send_test_case(TeamTestCase* tc){
-    return TEAM_UNKNOWN;
+    if (tc == NULL){
+        qDebug() << "Error at interface team";
+        return TEAM_UNKNOWN;
+    }
+    else{
+        return TEAM_UNKNOWN;
+    }
 }

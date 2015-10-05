@@ -14,6 +14,7 @@
 #include "interface_team.h"
 #include "mainwindow.h"
 #include <fstream>
+#include <QDebug>
 
 typedef struct{
 	int success;

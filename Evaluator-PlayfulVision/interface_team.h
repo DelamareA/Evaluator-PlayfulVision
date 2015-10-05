@@ -10,6 +10,7 @@
 */
 
 #include "test_case.h"
+#include <QDebug>
 
 class InterfaceTeam{
 	public:

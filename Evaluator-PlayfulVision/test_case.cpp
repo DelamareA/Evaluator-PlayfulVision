@@ -1,12 +1,23 @@
 #include "test_case.h"
 
 TeamTestCase::TeamTestCase(QImage* player_image, team_t expected_result, std::vector<Template*> templates){
-	m_player_image = player_image;
-	m_expected_result = expected_result;
-	m_templates = templates;
-    static int ms_instance_number = 0;
-    ms_instance_number ++;
-	m_instance_id = ms_instance_number;
+    if (player_image == NULL){
+        qDebug() << "Error in TeamTestCase::TeamTestCase, given image is null";
+    }
+    else if (templates.size() != 3){
+        qDebug() << "Error in TeamTestCase::TeamTestCase, invalid number of templates.";
+    }
+    else if (templates[0] == NULL || templates[1] == NULL || templates[2] == NULL){
+        qDebug() << "Error in TeamTestCase::TeamTestCase, null pointer in templates.";
+    }
+    else{
+        m_player_image = player_image;
+        m_expected_result = expected_result;
+        m_templates = templates;
+        static int ms_instance_number = 0;
+        ms_instance_number ++;
+        m_instance_id = ms_instance_number;
+    }
 }
 
 TeamTestCase::~TeamTestCase(){}
@@ -21,7 +32,15 @@ int TeamTestCase::get_id() {return m_instance_id;}
 	file name player image % expected result (0 : team A, 1 : team B, 2 : team Referee) % file_name templateA % file_name templateB % file_name templateReferee #
 */
 std::string TeamTestCase::save_test_case(TeamTestCase* tc){
+    if (tc == NULL){
+        qDebug() << "Error at TeamTestCase::save_test_case, given test case is NULL";
+    }
+
     std::string file_name_player_image = "player_test_case_" + int_to_string(tc->get_id()) + ".jpg";
+    Qimage* player_image = tc->get_player_image();
+    if (player_image == NULL){
+        qDebug() << "Error at TeamTestCase::save_test_case, null pointer on player image, testcase with id " << tc->get_id();
+    }
     bool player_save = tc->get_player_image()->save(QString::fromUtf8(file_name_player_image.c_str()));
 
 
@@ -36,9 +55,17 @@ std::string TeamTestCase::save_test_case(TeamTestCase* tc){
 	std::string file_name_template_B = "template_B_test_case_" + int_to_string(tc->get_id()) + ".jpg";
 	std::string file_name_template_REFEREE = "template_REFEREE_test_case_" + int_to_string(tc->get_id()) + ".jpg";
 
-    bool template_A_save = ((tc->get_templates())[IDX_TEAM_A])->get_template().save(QString::fromUtf8(file_name_template_A.c_str()));
-    bool template_B_save = ((tc->get_templates())[IDX_TEAM_B])->get_template().save(QString::fromUtf8(file_name_template_B.c_str()));
-    bool template_REFEREE_save = ((tc->get_templates())[IDX_REFEREE])->get_template().save(QString::fromUtf8(file_name_template_REFEREE.c_str()));
+    std::vector<Template*> templates = tc->get_templates();
+    if (templates.size() != 3){
+        qDebug() << "Error in TeamTestCase::save_test_case, " << templates.size() << " instead of 3.";
+    }
+    if (templates[0] == NULL || templates[1] == NULL || templates[2] == NULL){
+        qDebug() << "Error in TeamTestCase::save_test_case, null pointer in templates for test case with id " << tc->get_id();
+    }
+
+    bool template_A_save = templates[IDX_TEAM_A]->get_template().save(QString::fromUtf8(file_name_template_A.c_str()));
+    bool template_B_save = templates[IDX_TEAM_B]->get_template().save(QString::fromUtf8(file_name_template_B.c_str()));
+    bool template_REFEREE_save = templates[IDX_REFEREE]->get_template().save(QString::fromUtf8(file_name_template_REFEREE.c_str()));
 
 	return file_name_player_image + "%" + expected + "%" + file_name_template_A + "%" + file_name_template_B + "%" + file_name_template_REFEREE + "#";
 
@@ -78,14 +105,25 @@ TeamTestCase* TeamTestCase::decode_from_string(std::string str){
     bool template_B_loaded = template_B_image.load(QString::fromUtf8(file_name_template_B.c_str()));
     bool template_REFEREE_loaded = template_REFEREE_image.load(QString::fromUtf8(file_name_template_REFEREE.c_str()));
 
+    if (!player_image_loaded){
+        qDebug() << "Error in TeamTestCase::decode_from_string, couldn't load player image";
+    }
+    else if (!template_A_loaded || !template_B_loaded || !template_REFEREE_loaded){
+        qDebug() << "Error in TeamTestCase::decode_from_string, couldn't load template";
+    }
+
 	team_t expct;
 	if (expected == "0") expct = TEAM_A;
 	else if (expected == "1") expct = TEAM_B;
 	else if (expected == "2") expct = TEAM_REFEREE;
+    else qDebug() << "Error in TeamTestCase::decode_from_string, invalid expected team : " << expected;
 
 	Template* t_A = new Template(template_A_image, TEAM_A);
 	Template* t_B = new Template(template_B_image, TEAM_B);
 	Template* t_REFEREE = new Template(template_REFEREE_image, TEAM_REFEREE);
+    if (t_A == NULL || t_B == NULL || t_REFEREE == NULL){
+        qDebug() << "Error in TeamTestCase::decode_from_string, couldn't create tenmplate.";
+    }
 	std::vector<Template*> templates;
 	templates.push_back(t_A);
 	templates.push_back(t_B);
@@ -103,7 +141,13 @@ void TeamTestCase::save_testcases_to_file(std::vector<TeamTestCase*> test_cases,
 }
 
 TeamTestCase* TeamTestCase::build_test_case_from_color_data(ColorData* cd){
+    if (cd == NULL){
+        qDebug() << "Error in TeamTestCase::build_test_case_from_color_data, given data is null";
+    }
 	QImage* img = cd->getImage();
+    if (img == NULL){
+        qDebug() << "Error in TeamTestCase::build_test_case_from_color_data, image of data is NULL";
+    }
 	team_t expct;
 	switch(cd->toColor()){
 		case TEAM_1:	expct = TEAM_A;			break;
@@ -121,6 +165,9 @@ std::string TeamTestCase::int_to_string(int n){
 
 /* ****************************** */
 NumTestCase::NumTestCase(QImage* number, int expected){
+    if (number == NULL){
+        qDebug() << "Error in NumTestCase::NumTestCase, given number image is null";
+    }
     m_number_image = number;
     m_expected_result = expected;
     static int ms_instance_number = 0;
@@ -129,8 +176,15 @@ NumTestCase::NumTestCase(QImage* number, int expected){
 }
 /* num_file_name % expected # */
 std::string NumTestCase::save_test_case(NumTestCase* tc){
+    if (tc == NULL){
+        qDebug() << "Error in NumTestCase::save_test_case, given test case is null";
+    }
     std::string image_number_filename = "number_test_case_" + TeamTestCase::int_to_string(tc->get_id()) + ".jpg";
-    tc->get_number_image()->save(QString::fromUtf8(image_number_filename.c_str()));
+    QImage* number_image = tc->get_number_image();
+    if (number_image == NULL){
+        qDebug() << "Error in NumTestCase::save_test_case, number_image for the given test case is null";
+    }
+    number_image->save(QString::fromUtf8(image_number_filename.c_str()));
     std::string expected = TeamTestCase::int_to_string(tc->get_expected_result());
     return image_number_filename + "%" + expected + "#";
 }
@@ -141,6 +195,9 @@ NumTestCase* NumTestCase::decode_from_string(std::string str){
     std::string expct = str.substr(percent_index+1);
     QImage* img = new QImage();
     img->load(QString::fromUtf8(filename.c_str()));
+    if (img == NULL){
+        qDebug() << "Error in NumTestCase::decode_from_string, can't load image " << filename;
+    }
     return new NumTestCase(img, string_to_int(expct));
 }
 

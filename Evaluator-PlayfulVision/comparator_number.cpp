@@ -20,6 +20,9 @@ void ComparatorNumber::run_test_cases(){
     std::string terminal_message;
     MainWindow::add_message_to_terminal("Number recognition tests running ...");
     for (int i = 0; i < m_test_cases.size(); i ++){
+        if (m_test_cases[i] == NULL){
+            qDebug() << "Error at ComparatorNumber::run_test_case, null pointer in test cases";
+        }
         terminal_message = "Test " + TeamTestCase::int_to_string(i) + " : ";
         int algo_result = InterfaceNumber::send_test_case(m_test_cases[i]);
         if (algo_result == m_test_cases[i]->get_expected_result()){
