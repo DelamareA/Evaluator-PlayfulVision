@@ -47,6 +47,11 @@ void ColorData::setTemplated(bool b){
 void ColorData::setImage(QImage* i){
     this->image = i;
     if (isTemplate){
+        if (ColorData::s_templates.size() < 3){
+            ColorData::s_templates.push_back(NULL);
+            ColorData::s_templates.push_back(NULL);
+            ColorData::s_templates.push_back(NULL);
+        }
         ColorData::s_templates[color] = new Template(*i, colorToTeam(color));
     }
 }
