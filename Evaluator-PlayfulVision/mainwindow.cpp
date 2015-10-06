@@ -79,7 +79,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 
     QPushButton* buttonPrevious = new QPushButton("Previous frame", actionBar);
     layoutActionBar->addWidget(buttonPrevious);
-    connect(buttonPrevious, SIGNAL(clicked ()), this, SLOT(slotSaveAndExit()));
+    //connect(buttonPrevious, SIGNAL(clicked ()), this, SLOT(slotSaveAndExit()));
 
     QPushButton* buttonNext = new QPushButton("Next frame", actionBar);
     layoutActionBar->addWidget(buttonNext);
@@ -96,6 +96,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 
     QPushButton* buttonSaveAndExit = new QPushButton("Save current data and exit to menu", actionBar);
     layoutActionBar->addWidget(buttonSaveAndExit);
+    connect(buttonSaveAndExit, SIGNAL(clicked ()), this, SLOT(slotSaveAndExit()));
 
     frameDuration = 1000; // A CHANGER
     currentFrame = 0;
@@ -210,6 +211,17 @@ void MainWindow::slotActionLoadColorTriggered(bool b){
 }
 
 void MainWindow::slotSaveAndExit(){
+    for (int i = 0; i < currentPixmaps.size(); i++){
+        if (mode == COLOR && currentPixmaps[i]->isOldest()){
+            QPixmap snapshot = graphicsView->grab();
+            QImage* imageCropped = new QImage(snapshot.toImage().copy(currentPixmaps[i]->getRect().toRect()));
+
+            ColorData* pointer = (ColorData*)currentPixmaps[i]->getDataPointer();
+            pointer->setImage(imageCropped);
+        }
+
+    }
+
     std::vector<TeamTestCase*> team_tc = this->create_team_test_cases_from_data();
     std::vector<NumTestCase*> number_tc = this->create_number_test_cases_from_data();
     if (team_tc.size() > 0){
@@ -245,7 +257,6 @@ void MainWindow::slotSpinInputValueChanged(int i){
 }
 
 void MainWindow::slotComboInputIndexChanged(int i){
-    qDebug() << "Called Combo";
     if (focusedPixmap != 0){
         ColorData* oldData = (ColorData *)focusedPixmap->getDataPointer();
 
@@ -274,7 +285,6 @@ void MainWindow::slotComboInputIndexChanged(int i){
 }
 
 void MainWindow::slotCheckInputStateChanged(int s){
-    qDebug() << "Called Check";
     if (focusedPixmap != 0){
         ColorData* oldData = (ColorData *)focusedPixmap->getDataPointer();
 
@@ -282,7 +292,6 @@ void MainWindow::slotCheckInputStateChanged(int s){
 
         if (mode == COLOR){
             newData = new ColorData(oldData->toColor(), (bool)s);
-            qDebug() << "New data : " << newData;
 
             newData->setX(oldData->getX());
             newData->setY(oldData->getY());
@@ -321,12 +330,10 @@ void MainWindow::loadVideo(){
 }
 
 void MainWindow::update(){
-    qDebug() << videoItem->nativeSize().width() << "kapue";
-    //videoItem->setSize(videoItem->nativeSize());
+
 }
 
 void MainWindow::mouseClick(unsigned int x, unsigned int y){
-    qDebug() << "(" << x << "," << y << ")";
     mode2 = !mode2;
     createCustomPixmap(x,y);
 }
