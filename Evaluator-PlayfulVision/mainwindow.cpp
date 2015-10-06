@@ -442,6 +442,8 @@ std::vector<TeamTestCase*> MainWindow::create_team_test_cases_from_data(){
                 test_cases.push_back(TeamTestCase::build_test_case_from_color_data((ColorData*) data));
             }
         }
+        t = t+1;
+        f_data = videoData->getFrameData(t);
     }
     return test_cases;
 }
@@ -458,6 +460,8 @@ std::vector<NumTestCase*> MainWindow::create_number_test_cases_from_data(){
                 test_cases.push_back(NumTestCase::build_test_case_from_number_data((NumberData*) data));
             }
         }
+        t = t+1;
+        f_data = videoData->getFrameData(t);
     }
     return test_cases;
 }
