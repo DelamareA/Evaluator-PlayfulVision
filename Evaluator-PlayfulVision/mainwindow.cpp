@@ -162,7 +162,9 @@ void MainWindow::slotNextFrame(){
     else {
         player->setPosition(player->position() + frameDuration);
         videoData->addFrameData(currentFrame+1, new FrameData(videoData->getFrameData(currentFrame)));
-
+        for (int i = 0; i < currentPixmaps.size(); i++){
+            currentPixmaps[i]->setVisible2(false);
+        }
         for (int i = 0; i < currentPixmaps.size(); i++){
 
             if (mode == NUMBER){
@@ -190,7 +192,9 @@ void MainWindow::slotNextFrame(){
             }
 
         }
-
+        for (int i = 0; i < currentPixmaps.size(); i++){
+            currentPixmaps[i]->setVisible2(false);
+        }
 
         currentFrame++;
     }
@@ -212,6 +216,9 @@ void MainWindow::slotActionLoadColorTriggered(bool b){
 
 void MainWindow::slotSaveAndExit(){
     for (int i = 0; i < currentPixmaps.size(); i++){
+        currentPixmaps[i]->setVisible2(false);
+    }
+    for (int i = 0; i < currentPixmaps.size(); i++){
         if (mode == COLOR && currentPixmaps[i]->isOldest()){
             QPixmap snapshot = graphicsView->grab();
             QImage* imageCropped = new QImage(snapshot.toImage().copy(currentPixmaps[i]->getRect().toRect()));
@@ -220,6 +227,9 @@ void MainWindow::slotSaveAndExit(){
             pointer->setImage(imageCropped);
         }
 
+    }
+    for (int i = 0; i < currentPixmaps.size(); i++){
+        currentPixmaps[i]->setVisible2(false);
     }
 
     std::vector<TeamTestCase*> team_tc = this->create_team_test_cases_from_data();
@@ -395,8 +405,6 @@ void MainWindow::setFocusedPixmap(CustomQGraphicsPixmapItem* pixmap){
         comboInputColorTeam->setCurrentIndex(ColorData::colorToInt(focusedPixmap->getDataPointer()->toColor()));
         ColorData* pointer = (ColorData*)focusedPixmap->getDataPointer();
         checkInputColorTemplate->setChecked(pointer->getTemplate());
-
-        qDebug() << "Previous data : " << pointer;
     }
 }
 

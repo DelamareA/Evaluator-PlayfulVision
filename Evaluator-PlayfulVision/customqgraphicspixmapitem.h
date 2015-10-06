@@ -29,6 +29,7 @@ class CustomQGraphicsPixmapItem : public QGraphicsPixmapItem{
         QRectF getRect();
         void updateRectangle();
         bool isOldest();
+        void setVisible2(bool);
 
     protected :
         void keyReleaseEvent(QKeyEvent * event);

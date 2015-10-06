@@ -77,6 +77,11 @@ QRectF CustomQGraphicsPixmapItem::getRect(){
     return rectItem->rect();
 }
 
+void CustomQGraphicsPixmapItem::setVisible2(bool b){
+    this->setVisible(b);
+    this->rectItem->setVisible(b);
+}
+
 void CustomQGraphicsPixmapItem::keyReleaseEvent(QKeyEvent * event){
     if (event->key() == Qt::Key_Delete){
         event->accept();

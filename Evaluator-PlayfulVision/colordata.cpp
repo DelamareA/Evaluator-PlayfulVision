@@ -52,7 +52,7 @@ void ColorData::setImage(QImage* i){
             ColorData::s_templates.push_back(NULL);
             ColorData::s_templates.push_back(NULL);
         }
-        ColorData::s_templates[color] = new Template(*i, colorToTeam(color));
+        ColorData::s_templates[colorToInt(color)] = new Template(*i, colorToTeam(color));
     }
 }
 
