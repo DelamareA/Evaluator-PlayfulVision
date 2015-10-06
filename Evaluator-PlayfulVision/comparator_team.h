@@ -10,6 +10,9 @@
 		4 ) While there are test cases left, go to step 1.
 */
 
+#ifndef COMAPARATOR_TEAM_H_INCLUDED
+#define COMAPARATOR_TEAM_H_INCLUDED
+
 #include "test_case.h"
 #include "interface_team.h"
 #include "mainwindow.h"
@@ -21,7 +24,7 @@ typedef struct{
 	int fails;
 	int undermined;
 	int num_test;
-}comparison_results_t;
+}team_comparison_results_t;
 
 class ComparatorTeam{
 public:
@@ -30,9 +33,10 @@ public:
 
 	void run_test_cases();
 
-	comparison_results_t retreive_test_results();
+    team_comparison_results_t retreive_test_results();
 
 private:
     std::vector<TeamTestCase*> m_test_cases;
-	comparison_results_t m_results;
+    team_comparison_results_t m_results;
 };
+#endif

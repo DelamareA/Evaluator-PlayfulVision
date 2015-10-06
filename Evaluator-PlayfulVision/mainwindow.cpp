@@ -3,6 +3,7 @@
 WindowTerminal* MainWindow::terminal = NULL;
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
+    qDebug("Creating window");
     setWindowTitle("Evaluator");
 
     QWidget *centralZone = new QWidget(this);
@@ -105,6 +106,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 
     pointerPixmap = new QPixmap("ressources/images/pointer.png");
     pointerPixmap2 = new QPixmap("ressources/images/pointer2.png");
+
 
 }
 
@@ -237,9 +239,22 @@ void MainWindow::slotSaveAndExit(){
     if (team_tc.size() > 0){
         TeamTestCase::save_testcases_to_file(team_tc, "Team_test_cases.txt");
     }
-    else if (number_tc.size() > 0){
+    else{
+        qDebug() << "Empty vector ecountered while saving, no data ?";
+    }
+
+    if (number_tc.size() > 0){
         NumTestCase::save_testcases_to_file(number_tc, "Number_test_cases.txt");
     }
+    else{
+        qDebug() << "Empty vector ecountered while saving, no data ?";
+    }
+    qDebug() << "Preparing to run tests";
+    ComparatorTeam ct("Team_test_cases.txt");
+    ct.run_test_cases();
+    qDebug() << "Team test done";
+    ComparatorNumber cn("Number_test_cases.txt");
+    cn.run_test_cases();
 }
 
 void MainWindow::slotSpinInputValueChanged(int i){
@@ -449,10 +464,18 @@ std::vector<TeamTestCase*> MainWindow::create_team_test_cases_from_data(){
     Time t = 0;
     std::vector<TeamTestCase*> test_cases;
     FrameData* f_data = videoData->getFrameData(t);
+    if (f_data == NULL){
+        qDebug() << "Null pointer on frame data while attemping to save. Abort.";
+        return test_cases;
+    }
     while (f_data != NULL){
         QSetIterator<Data *> it = f_data->iterator();
         while (it.hasNext()){
             Data* data = it.next();
+            if (data == NULL){
+                qDebug() << "Null pointer on data while attemping to save. Abort.";
+                return test_cases;
+            }
             if (data->isColor()){
                 test_cases.push_back(TeamTestCase::build_test_case_from_color_data((ColorData*) data));
             }
@@ -467,10 +490,18 @@ std::vector<NumTestCase*> MainWindow::create_number_test_cases_from_data(){
     Time t = 0;
     std::vector<NumTestCase*> test_cases;
     FrameData* f_data = videoData->getFrameData(t);
+    if (f_data == NULL){
+        qDebug() << "Null pointer on frame data while attemping to save. Abort.";
+        return test_cases;
+    }
     while (f_data != NULL){
         QSetIterator<Data *> it = f_data->iterator();
         while (it.hasNext()){
             Data* data = it.next();
+            if (data == NULL){
+                qDebug() << "Null pointer on data while attemping to save. Abort.";
+                return test_cases;
+            }
             if (data->isNumber()){
                 test_cases.push_back(NumTestCase::build_test_case_from_number_data((NumberData*) data));
             }

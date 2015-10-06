@@ -31,7 +31,8 @@
 #include "constants.h"
 #include "windowterminal.h"
 #include "test_case.h"
-
+#include "comparator_number.h"
+#include "comparator_team.h"
 class CustomQGraphicsPixmapItem;
 
 

@@ -11,6 +11,6 @@ team_t InterfaceTeam::send_test_case(TeamTestCase* tc){
         return TEAM_UNKNOWN;
     }
     else{
-        return TEAM_UNKNOWN;
+        return tc->get_expected_result();
     }
 }

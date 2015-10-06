@@ -4,6 +4,7 @@ ComparatorNumber::ComparatorNumber(std::string test_case_file){
     std::ifstream file(test_case_file.c_str(), std::ios::in);
     std::string line;
     while (getline(file, line)){
+        qDebug() << "parsing line=" << line.c_str();
         m_test_cases.push_back(NumTestCase::decode_from_string(line));
     }
     file.close();
@@ -33,9 +34,10 @@ void ComparatorNumber::run_test_cases(){
             m_results.fails ++;
             terminal_message += "FAILED";
         }
+        MainWindow::add_message_to_terminal(terminal_message);
     }
 }
 
-comparison_results_t ComparatorNumber::retreive_test_results(){
+number_comparison_results_t ComparatorNumber::retreive_test_results(){
     return m_results;
 }

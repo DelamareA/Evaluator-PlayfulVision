@@ -9,6 +9,9 @@
 	the expected value.
 */
 
+#ifndef INTERFACE_TEAM_H_INCLUDED
+#define INTERFACE_TEAM_H_INCLUDED
+
 #include "test_case.h"
 #include <QDebug>
 
@@ -16,3 +19,5 @@ class InterfaceTeam{
 	public:
         static team_t send_test_case(TeamTestCase* tc);
 };
+
+#endif

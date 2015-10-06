@@ -81,10 +81,11 @@ TeamTestCase* TeamTestCase::decode_from_string(std::string str){
 
 	int idx = 0;
 	while (*encoded_test_case != '#'){
+        qDebug() << *encoded_test_case << "     " << idx;
 		if (*encoded_test_case != '%'){
 			switch (idx){
 				case 0: player_file_name += *encoded_test_case; 			break;
-				case 1: expected += *encoded_test_case; 					break;
+                case 1: expected = *encoded_test_case;                      break;
 				case 2: file_name_template_A += *encoded_test_case;			break;
                 case 3: file_name_template_B += *encoded_test_case; 		break;
                 case 4: file_name_template_REFEREE += *encoded_test_case; 	break;
@@ -95,8 +96,9 @@ TeamTestCase* TeamTestCase::decode_from_string(std::string str){
 		}
 		encoded_test_case ++;
 	}
+    qDebug() << player_file_name.c_str() << "|   |" << expected.c_str() << "|  " << file_name_template_A.c_str() << "  " << file_name_template_B.c_str() << "  " << file_name_template_REFEREE.c_str();
 
-	QImage* player_image;
+    QImage* player_image = new QImage();
 	QImage template_A_image;
 	QImage template_B_image;
 	QImage template_REFEREE_image;
@@ -111,12 +113,16 @@ TeamTestCase* TeamTestCase::decode_from_string(std::string str){
     else if (!template_A_loaded || !template_B_loaded || !template_REFEREE_loaded){
         qDebug() << "Error in TeamTestCase::decode_from_string, couldn't load template";
     }
+    int expected_int = NumTestCase::string_to_int(expected);
+    qDebug() << "Images loaded";
 
 	team_t expct;
-	if (expected == "0") expct = TEAM_A;
-	else if (expected == "1") expct = TEAM_B;
-	else if (expected == "2") expct = TEAM_REFEREE;
+    if (expected_int == 0) expct = TEAM_A;
+    else if (expected_int == 1) expct = TEAM_B;
+    else if (expected_int == 2) expct = TEAM_REFEREE;
     else qDebug() << "Error in TeamTestCase::decode_from_string, invalid expected team : " << QString::fromUtf8(expected.c_str());
+
+    qDebug() << "Expected value retrieved";
 
 	Template* t_A = new Template(template_A_image, TEAM_A);
 	Template* t_B = new Template(template_B_image, TEAM_B);
@@ -124,10 +130,14 @@ TeamTestCase* TeamTestCase::decode_from_string(std::string str){
     if (t_A == NULL || t_B == NULL || t_REFEREE == NULL){
         qDebug() << "Error in TeamTestCase::decode_from_string, couldn't create tenmplate.";
     }
+    else qDebug() << "Templates created";
+
 	std::vector<Template*> templates;
 	templates.push_back(t_A);
-	templates.push_back(t_B);
+    templates.push_back(t_B);
 	templates.push_back(t_REFEREE);
+
+    qDebug() << "Template vector created";
 
     return new TeamTestCase(player_image, expct, templates);
 }
@@ -191,12 +201,31 @@ std::string NumTestCase::save_test_case(NumTestCase* tc){
 
 NumTestCase* NumTestCase::decode_from_string(std::string str){
     int percent_index = str.find_first_of('%');
-    std::string filename = str.substr(0, percent_index);
-    std::string expct = str.substr(percent_index+1);
+    int end_index = str.find_first_of('#');
+    std::string filename = "";
+    std::string expct = "";
+
+    const char* c = str.c_str();
+    int idx = 0;
+    while (*c != '#'){
+        if (*c != '%'){
+            switch (idx){
+                case 0: filename += *c; break;
+                case 1: expct += *c; break;
+            }
+        }
+        else{
+            idx ++;
+        }
+        c = c + 1;
+    }
     QImage* img = new QImage();
     img->load(QString::fromUtf8(filename.c_str()));
     if (img == NULL){
         qDebug() << "Error in NumTestCase::decode_from_string, can't load image " << QString::fromUtf8(filename.c_str());
+    }
+    else{
+        qDebug() << "NumTestCase parsed filename=" << filename.c_str() << " expected=" << expct.c_str();
     }
     return new NumTestCase(img, string_to_int(expct));
 }

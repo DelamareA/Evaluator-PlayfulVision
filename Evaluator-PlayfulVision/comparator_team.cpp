@@ -4,6 +4,7 @@ ComparatorTeam::ComparatorTeam(std::string test_case_file){
     std::ifstream file(test_case_file.c_str(), std::ios::in);
 	std::string line;
 	while (getline(file, line)){
+        qDebug() << "Creating test case : " << QString::fromUtf8(line.c_str());
         m_test_cases.push_back(TeamTestCase::decode_from_string(line));
 	}
 	file.close();
@@ -18,6 +19,7 @@ ComparatorTeam::~ComparatorTeam() {}
 
 void ComparatorTeam::run_test_cases(){
     std::string terminal_message;
+
     MainWindow::add_message_to_terminal("Team membership tests running ...");
 	for (int i = 0; i < m_test_cases.size(); i ++){
         terminal_message = "Test " + TeamTestCase::int_to_string(i) + " : ";
@@ -41,6 +43,6 @@ void ComparatorTeam::run_test_cases(){
 	}
 }
 
-comparison_results_t ComparatorTeam::retreive_test_results(){
+team_comparison_results_t ComparatorTeam::retreive_test_results(){
 	return m_results;
 }
