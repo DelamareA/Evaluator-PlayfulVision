@@ -65,6 +65,8 @@ class MainWindow : public QMainWindow{
 
         void slotActionLoadNumTriggered(bool);
         void slotActionLoadColorTriggered(bool);
+        void slotActionCompareNumTriggered(bool);
+        void slotActionCompareColorTriggered(bool);
 
         void slotSpinInputValueChanged(int);
         void slotComboInputIndexChanged(int);
@@ -76,6 +78,9 @@ class MainWindow : public QMainWindow{
         void setCorrectTimeAndFrame();
         void loadVideo();
         void createCustomPixmap(unsigned int x, unsigned int y);
+
+        void compareNum();
+        void compareColor();
 
     private:
         // _______________________________

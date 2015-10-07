@@ -24,8 +24,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 
     QAction *actionCompareNum = new QAction("Compare data (&Number)", this);
     compareDataMenu->addAction(actionCompareNum);
+    connect(actionCompareNum, SIGNAL(triggered(bool)), this, SLOT(slotActionCompareNumTriggered(bool)));
     QAction *actionCompareColor = new QAction("Compare data (&Color)", this);
     compareDataMenu->addAction(actionCompareColor);
+    connect(actionCompareColor, SIGNAL(triggered(bool)), this, SLOT(slotActionCompareColorTriggered(bool)));
 
 
     player = new QMediaPlayer(this);
@@ -195,7 +197,7 @@ void MainWindow::slotNextFrame(){
 
         }
         for (int i = 0; i < currentPixmaps.size(); i++){
-            currentPixmaps[i]->setVisible2(false);
+            currentPixmaps[i]->setVisible2(true);
         }
 
         currentFrame++;
@@ -216,6 +218,22 @@ void MainWindow::slotActionLoadColorTriggered(bool b){
     loadVideo();
 }
 
+void MainWindow::slotActionCompareNumTriggered(bool b){
+
+}
+
+void MainWindow::slotActionCompareColorTriggered(bool b){
+
+}
+
+void MainWindow::compareNum(){
+
+}
+
+void MainWindow::compareColor(){
+
+}
+
 void MainWindow::slotSaveAndExit(){
     for (int i = 0; i < currentPixmaps.size(); i++){
         currentPixmaps[i]->setVisible2(false);
@@ -231,7 +249,7 @@ void MainWindow::slotSaveAndExit(){
 
     }
     for (int i = 0; i < currentPixmaps.size(); i++){
-        currentPixmaps[i]->setVisible2(false);
+        currentPixmaps[i]->setVisible2(true);
     }
 
     std::vector<TeamTestCase*> team_tc = this->create_team_test_cases_from_data();
