@@ -3,7 +3,6 @@
 WindowTerminal* MainWindow::terminal = NULL;
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
-    qDebug("Creating window");
     setWindowTitle("Evaluator");
 
     QWidget *centralZone = new QWidget(this);
@@ -155,7 +154,7 @@ void MainWindow::slotMediaStatusChanged(QMediaPlayer::MediaStatus state){
 }
 
 void MainWindow::slotdurationChanged(qint64 duration){
-    qDebug() << duration;
+
 }
 
 void MainWindow::slotNextFrame(){
