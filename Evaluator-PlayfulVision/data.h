@@ -19,6 +19,8 @@ class Data {
         virtual bool isNumber() = 0;
         virtual bool isColor() = 0;
 
+        void setImage(QImage*);
+        QImage* getImage();
 
         unsigned int getX();
         unsigned int getY();
@@ -32,6 +34,7 @@ class Data {
     protected:
         unsigned int x;
         unsigned int y;
+        QImage* image;
 };
 
 #endif // DATA_H

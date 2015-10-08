@@ -44,6 +44,11 @@ void ColorData::setTemplated(bool b){
     this->isTemplate = b;
 }
 
+bool ColorData::getTemplate(){
+    return this->isTemplate;
+}
+
+
 void ColorData::setImage(QImage* i){
     this->image = i;
     if (isTemplate){
@@ -54,10 +59,6 @@ void ColorData::setImage(QImage* i){
         }
         ColorData::s_templates[colorToInt(color)] = new Template(*i, colorToTeam(color));
     }
-}
-
-bool ColorData::getTemplate(){
-    return this->isTemplate;
 }
 
 QImage* ColorData::getImage(){

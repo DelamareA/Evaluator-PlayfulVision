@@ -37,7 +37,6 @@ class ColorData : public Data {
         static std::vector<Template*> s_templates;
       Color color;
       bool isTemplate;
-      QImage* image;
 };
 
 #endif // COLORDATA_H

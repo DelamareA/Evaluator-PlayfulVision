@@ -5,7 +5,7 @@ NumberData::NumberData(){
 }
 
 NumberData::NumberData(QImage* img, int val){
-    m_img = img;
+    this->image = img;
     this->val = val;
 }
 
@@ -17,13 +17,14 @@ NumberData::~NumberData(){
 
 }
 
-QImage* NumberData::set_image(QImage* img){
-    m_img = img;
+void NumberData::setImage(QImage* i){
+    this->image = i;
 }
 
-QImage* NumberData::get_image(){
-    return m_img;
+QImage* NumberData::getImage(){
+    return this->image;
 }
+
 
 unsigned int NumberData::toNumber() {
     return val;

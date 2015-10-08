@@ -168,31 +168,31 @@ void MainWindow::slotNextFrame(){
             currentPixmaps[i]->setVisible2(false);
         }
         for (int i = 0; i < currentPixmaps.size(); i++){
-
-            if (mode == NUMBER){
+            if (currentPixmaps[i]->isOldest() && currentPixmaps[i]->getBrother() != 0){
                 Data* pointer = currentPixmaps[i]->getDataPointer();
                 Data* newPointer = 0;
 
-                newPointer = new NumberData(pointer->toNumber());
-
-                videoData->getFrameData(currentFrame+1)->addData(newPointer);
-                currentPixmaps[i]->changePointers(newPointer, videoData->getFrameData(currentFrame+1));
-            }
-            else if (currentPixmaps[i]->isOldest()){
                 QPixmap snapshot = graphicsView->grab();
                 QImage* imageCropped = new QImage(snapshot.toImage().copy(currentPixmaps[i]->getRect().toRect()));
 
+                pointer->setX((currentPixmaps[i]->pos().x() + currentPixmaps[i]->getBrother()->pos().x()) / 2);
+                pointer->setY((currentPixmaps[i]->pos().y() + currentPixmaps[i]->getBrother()->pos().y()) / 2);
 
-                ColorData* pointer = (ColorData*)currentPixmaps[i]->getDataPointer();
-                pointer->setImage(imageCropped);
-
-                ColorData* newPointer = 0;
-                newPointer = new ColorData(pointer->toColor(), ((ColorData*)(pointer))->getTemplate());
+                if (mode == NUMBER){
+                    newPointer = new NumberData(pointer->toNumber());
+                    pointer->setImage(imageCropped);
+                }
+                else {
+                    newPointer = new ColorData(pointer->toColor(), ((ColorData*)(pointer))->getTemplate());
+                    ((ColorData*)pointer)->setImage(imageCropped);
+                }
 
                 videoData->getFrameData(currentFrame+1)->addData(newPointer);
                 currentPixmaps[i]->changePointers(newPointer, videoData->getFrameData(currentFrame+1));
             }
-
+            else if (currentPixmaps[i]->getBrother() == 0){
+                qDebug() << "Each data must come in pairs";
+            }
         }
         for (int i = 0; i < currentPixmaps.size(); i++){
             currentPixmaps[i]->setVisible2(true);
@@ -326,18 +326,32 @@ void MainWindow::slotSaveAndExit(){
         currentPixmaps[i]->setVisible2(false);
     }
     for (int i = 0; i < currentPixmaps.size(); i++){
-        if (mode == COLOR && currentPixmaps[i]->isOldest()){
+        if (currentPixmaps[i]->isOldest() && currentPixmaps[i]->getBrother() != 0){
             QPixmap snapshot = graphicsView->grab();
             QImage* imageCropped = new QImage(snapshot.toImage().copy(currentPixmaps[i]->getRect().toRect()));
 
-            ColorData* pointer = (ColorData*)currentPixmaps[i]->getDataPointer();
-            pointer->setImage(imageCropped);
+            Data* pointer = currentPixmaps[i]->getDataPointer();
+
+            pointer->setX((currentPixmaps[i]->pos().x() + currentPixmaps[i]->getBrother()->pos().x()) / 2);
+            pointer->setY((currentPixmaps[i]->pos().y() + currentPixmaps[i]->getBrother()->pos().y()) / 2);
+
+            if (mode == NUMBER){
+                pointer->setImage(imageCropped);
+            }
+            else {
+                ((ColorData*)pointer)->setImage(imageCropped);
+            }
+
+        }
+        else if (currentPixmaps[i]->getBrother() == 0){
+            qDebug() << "Each data must come in pairs";
         }
 
     }
     for (int i = 0; i < currentPixmaps.size(); i++){
         currentPixmaps[i]->setVisible2(true);
     }
+
 
     std::vector<TeamTestCase*> team_tc = this->create_team_test_cases_from_data();
     std::vector<NumTestCase*> number_tc = this->create_number_test_cases_from_data();
@@ -354,12 +368,17 @@ void MainWindow::slotSaveAndExit(){
     else{
         qDebug() << "Empty vector ecountered while saving, no data ?";
     }
+
+    // A METTRE DANS COMPARENUM / COMPARECOLOR
+
+    /*
     qDebug() << "Preparing to run tests";
     ComparatorTeam ct("Team_test_cases.txt");
     ct.run_test_cases();
     qDebug() << "Team test done";
     ComparatorNumber cn("Number_test_cases.txt");
     cn.run_test_cases();
+    */
 }
 
 void MainWindow::slotSpinInputValueChanged(int i){
@@ -377,6 +396,10 @@ void MainWindow::slotSpinInputValueChanged(int i){
             videoData->getFrameData(currentFrame)->deleteData(oldData);
             videoData->getFrameData(currentFrame)->addData(newData);
             focusedPixmap->changePointers(newData, videoData->getFrameData(currentFrame));
+            CustomQGraphicsPixmapItem* brother = focusedPixmap->getBrother();
+            if (brother != 0){
+                brother->changePointers(newData, videoData->getFrameData(currentFrame));
+            }
 
         }
         else {
@@ -473,9 +496,17 @@ void MainWindow::createCustomPixmap(unsigned int x, unsigned int y){
     CustomQGraphicsPixmapItem* item = 0;
 
     if (mode == NUMBER){
-        NumberData* dataPointer = new NumberData(spinInputNumber->value());
-        item = new CustomQGraphicsPixmapItem(*pointerPixmap, dataPointer, videoData->getFrameData(currentFrame), this, 0);
-        videoData->getFrameData(currentFrame)->addData(dataPointer);
+
+        if (mode2){
+            NumberData* dataPointer = new NumberData(spinInputNumber->value());
+            item = new CustomQGraphicsPixmapItem(*pointerPixmap, dataPointer, videoData->getFrameData(currentFrame), this, 0);
+            videoData->getFrameData(currentFrame)->addData(dataPointer);
+        }
+        else {
+            NumberData* dataPointer = (NumberData*)currentPixmaps.last()->getDataPointer();
+            item = new CustomQGraphicsPixmapItem(*pointerPixmap2, dataPointer, videoData->getFrameData(currentFrame), this, currentPixmaps.last());
+            currentPixmaps.last()->setBrother(item);
+        }
     }
     else {
         if (mode2){
@@ -519,7 +550,8 @@ void MainWindow::setFocusedPixmap(CustomQGraphicsPixmapItem* pixmap){
     focusedPixmap = pixmap;
 
     if (mode == NUMBER){
-        spinInputNumber->setValue(focusedPixmap->getDataPointer()->toNumber());
+        qDebug() << "Ptr : " << focusedPixmap->getDataPointer();
+        spinInputNumber->setValue(((NumberData*)focusedPixmap->getDataPointer())->toNumber());
     }
     else {
         comboInputColorTeam->setCurrentIndex(ColorData::colorToInt(focusedPixmap->getDataPointer()->toColor()));

@@ -42,3 +42,10 @@ unsigned int Data::distance(Data const& other){
 }
 
 
+void Data::setImage(QImage* i){
+    this->image = i;
+}
+
+QImage* Data::getImage(){
+    return this->image;
+}
