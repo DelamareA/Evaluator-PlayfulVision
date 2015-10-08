@@ -108,7 +108,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
     pointerPixmap = new QPixmap("ressources/images/pointer.png");
     pointerPixmap2 = new QPixmap("ressources/images/pointer2.png");
 
-
 }
 
 MainWindow::~MainWindow() { // A CHANGER
@@ -218,19 +217,108 @@ void MainWindow::slotActionLoadColorTriggered(bool b){
 }
 
 void MainWindow::slotActionCompareNumTriggered(bool b){
+    littleWindowNumber = new QWidget();
+    QVBoxLayout *layoutLittleWindow = new QVBoxLayout;
+    littleWindowNumber->setLayout(layoutLittleWindow);
+    littleWindowNumber->setWindowTitle("Number data comparison");
 
+    QWidget* widgetManual = new QWidget(littleWindowNumber);
+    layoutLittleWindow->addWidget(widgetManual);
+    QHBoxLayout* layoutManual = new QHBoxLayout;
+    widgetManual->setLayout(layoutManual);
+
+    labelManual = new QLabel("No file selected", widgetManual);
+    layoutManual->addWidget(labelManual);
+    QPushButton* buttonManual = new QPushButton("Select manual data", widgetManual);
+    connect(buttonManual, SIGNAL(clicked ()), this, SLOT(slotManualFileSelection()));
+    layoutManual->addWidget(buttonManual);
+
+    QWidget* widgetAutomatic = new QWidget(littleWindowNumber);
+    layoutLittleWindow->addWidget(widgetAutomatic);
+    QHBoxLayout* layoutAutomatic = new QHBoxLayout;
+    widgetAutomatic->setLayout(layoutAutomatic);
+
+    labelAutomatic = new QLabel("No file selected", widgetAutomatic);
+    layoutAutomatic->addWidget(labelAutomatic);
+    QPushButton* buttonAutomatic = new QPushButton("Select automatic data", widgetAutomatic);
+    connect(buttonAutomatic, SIGNAL(clicked ()), this, SLOT(slotAutomaticFileSelection()));
+    layoutAutomatic->addWidget(buttonAutomatic);
+
+    QPushButton* buttonCompare = new QPushButton("Compare data !", littleWindowNumber);
+    buttonCompare->setMaximumWidth(200);
+    connect(buttonCompare, SIGNAL(clicked ()), this, SLOT(compareNum()));
+    layoutLittleWindow->addWidget(buttonCompare);
+
+    littleWindowNumber->setVisible(true);
 }
 
 void MainWindow::slotActionCompareColorTriggered(bool b){
+    littleWindowColor = new QWidget();
+    QVBoxLayout *layoutLittleWindow = new QVBoxLayout;
+    littleWindowColor->setLayout(layoutLittleWindow);
+    littleWindowColor->setWindowTitle("Color data comparison");
 
+    QWidget* widgetManual = new QWidget(littleWindowColor);
+    layoutLittleWindow->addWidget(widgetManual);
+    QHBoxLayout* layoutManual = new QHBoxLayout;
+    widgetManual->setLayout(layoutManual);
+
+    labelManual = new QLabel("No file selected", widgetManual);
+    layoutManual->addWidget(labelManual);
+    QPushButton* buttonManual = new QPushButton("Select manual data", widgetManual);
+    connect(buttonManual, SIGNAL(clicked ()), this, SLOT(slotManualFileSelection()));
+    layoutManual->addWidget(buttonManual);
+
+    QWidget* widgetAutomatic = new QWidget(littleWindowColor);
+    layoutLittleWindow->addWidget(widgetAutomatic);
+    QHBoxLayout* layoutAutomatic = new QHBoxLayout;
+    widgetAutomatic->setLayout(layoutAutomatic);
+
+    labelAutomatic = new QLabel("No file selected", widgetAutomatic);
+    layoutAutomatic->addWidget(labelAutomatic);
+    QPushButton* buttonAutomatic = new QPushButton("Select automatic data", widgetAutomatic);
+    connect(buttonAutomatic, SIGNAL(clicked ()), this, SLOT(slotAutomaticFileSelection()));
+    layoutAutomatic->addWidget(buttonAutomatic);
+
+    QPushButton* buttonCompare = new QPushButton("Compare data !", littleWindowColor);
+    buttonCompare->setMaximumWidth(200);
+    connect(buttonCompare, SIGNAL(clicked ()), this, SLOT(compareColor()));
+    layoutLittleWindow->addWidget(buttonCompare);
+
+    littleWindowColor->setVisible(true);
 }
 
-void MainWindow::compareNum(){
+void MainWindow::slotManualFileSelection(){
+    QString fileName = QFileDialog::getOpenFileName(this, "Open a txt", QString(), "Text (*.txt)");
+    if (!fileName.isNull()){
+        labelManual->setText(fileName);
+    }
+}
 
+void MainWindow::slotAutomaticFileSelection(){
+    QString fileName = QFileDialog::getOpenFileName(this, "Open a txt", QString(), "Text (*.txt)");
+    if (!fileName.isNull()){
+        labelAutomatic->setText(fileName);
+    }
+}
+
+
+void MainWindow::compareNum(){
+    QString manualFile = labelManual->text();
+    QString automaticFile = labelAutomatic->text();
+    delete littleWindowNumber;
+    littleWindowNumber = 0;
+
+    // MET TON CODE ICI POUR LES NOMBRES
 }
 
 void MainWindow::compareColor(){
+    QString manualFile = labelManual->text();
+    QString automaticFile = labelAutomatic->text();
+    delete littleWindowColor;
+    littleWindowColor = 0;
 
+    // MET TON CODE ICI POUR LES COULEURS
 }
 
 void MainWindow::slotSaveAndExit(){

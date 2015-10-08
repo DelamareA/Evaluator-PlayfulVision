@@ -68,19 +68,22 @@ class MainWindow : public QMainWindow{
         void slotActionCompareNumTriggered(bool);
         void slotActionCompareColorTriggered(bool);
 
+        void slotManualFileSelection();
+        void slotAutomaticFileSelection();
+
         void slotSpinInputValueChanged(int);
         void slotComboInputIndexChanged(int);
         void slotCheckInputStateChanged(int);
 
         void slotSaveAndExit();
 
+        void compareNum();
+        void compareColor();
+
     private:
         void setCorrectTimeAndFrame();
         void loadVideo();
         void createCustomPixmap(unsigned int x, unsigned int y);
-
-        void compareNum();
-        void compareColor();
 
     private:
         // _______________________________
@@ -110,6 +113,12 @@ class MainWindow : public QMainWindow{
         QList<CustomQGraphicsPixmapItem*> currentPixmaps;
 
         static WindowTerminal* terminal;
+
+        QLabel* labelManual;
+        QLabel* labelAutomatic;
+
+        QWidget* littleWindowNumber;
+        QWidget* littleWindowColor;
 
 
         // _______________________________
